@@ -1,5 +1,7 @@
 # Photo OCR Scanner
 
+> このリポジトリには、キャスト向けライフプランシミュレーター「みずきのライフプラン」も入っています → [lifeplan-app/README.md](lifeplan-app/README.md)
+
 指定したフォルダ内の写真を自動でスキャンし、写っている文字を OpenAI の GPT-4o (Vision) で読み取ってまとめるスクリプトです。
 
 ## セットアップ

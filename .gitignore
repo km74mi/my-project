@@ -2,3 +2,7 @@
 __pycache__/
 *.pyc
 output/
+# ライフプランアプリ:写真・確認用の画像・node_modules はコミットしない
+lifeplan-app/assets/
+lifeplan-app/screenshots/
+node_modules/

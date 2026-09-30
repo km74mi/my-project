@@ -1,0 +1,1290 @@
+<title>みずきのライフプラン</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<style>
+/* Layout: みずき相談ルームと同じ 520px の一枚フレーム。はじめに → 質問7つ(1問1画面) → 結果レポート */
+:root {
+  --mz-img: linear-gradient(160deg, #EEDCD6, #D8C29C);
+  --bg: #F6F0EB;
+  --surface: #FFFCFA;
+  --ink: #3A2A2C;
+  --ink-soft: #6F5A5D;
+  --rose: #B47A78;
+  --rose-deep: #8E5557;
+  --rose-mist: #EEDCD6;
+  --rose-veil: #F7EAE5;
+  --gold: #A98652;
+  --gold-soft: #D8C29C;
+  --line: #E6D8D0;
+  --on-rose: #FFFFFF;
+  --s-now: #9A3F55;
+  --s-alt: #B8862C;
+  --c-in: #2A78B8; --c-out: #9A3F55; --c-ev: #B8862C;
+  --good: #3F7A5A; --good-soft: #E3F0E7;
+  --bad: #A23B3B;  --bad-soft: #F6E0DD;
+  --shadow: 0 1px 2px rgba(58, 42, 44, 0.05), 0 8px 24px rgba(58, 42, 44, 0.06);
+  --f-mincho: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --f-body: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --f-latin: "Cormorant Garamond", "Shippori Mincho", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1C1617; --surface: #272021; --ink: #F3E8E5; --ink-soft: #C7B3B0;
+    --rose: #D19D98; --rose-deep: #E4B5AF; --rose-mist: #463235; --rose-veil: #33262A;
+    --gold: #CDAE78; --gold-soft: #6E5C40; --line: #3B2F31; --on-rose: #2A1D1F;
+    --s-now: #C0566E; --s-alt: #A8822E; --c-in: #4A90D0; --c-out: #C0566E; --c-ev: #A8822E;
+    --good: #7CC39B; --good-soft: #1F3328; --bad: #F0928A; --bad-soft: #402222;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1C1617; --surface: #272021; --ink: #F3E8E5; --ink-soft: #C7B3B0;
+  --rose: #D19D98; --rose-deep: #E4B5AF; --rose-mist: #463235; --rose-veil: #33262A;
+  --gold: #CDAE78; --gold-soft: #6E5C40; --line: #3B2F31; --on-rose: #2A1D1F;
+  --s-now: #C0566E; --s-alt: #A8822E; --c-in: #4A90D0; --c-out: #C0566E; --c-ev: #A8822E;
+  --good: #7CC39B; --good-soft: #1F3328; --bad: #F0928A; --bad-soft: #402222;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.frame { max-width: 520px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* top bar */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--line); background: var(--bg); }
+.wordmark { font-family: var(--f-latin); font-style: italic; font-weight: 600; font-size: 19px; letter-spacing: .02em; white-space: nowrap; }
+.wordmark span { color: var(--gold); }
+.head-btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 500 12px/1 var(--f-body); padding: 9px 12px; border-radius: 999px; cursor: pointer; white-space: nowrap; }
+.head-btn:hover { border-color: var(--rose); }
+
+main { flex: 1; padding-inline: 18px; padding-block: 0 28px; display: flex; flex-direction: column; gap: 18px; }
+
+/* hero (はじめに) */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 16px; padding: 30px 0 22px; border-bottom: 1px solid var(--line); }
+.eyebrow { font-family: var(--f-latin); font-style: italic; font-weight: 500; font-size: 14px; letter-spacing: .08em; color: var(--gold); margin: 0 0 8px; }
+.hero h1 { font-family: var(--f-mincho); font-weight: 700; font-size: clamp(24px, 6.4vw, 30px); line-height: 1.45; letter-spacing: .02em; margin: 0 0 12px; text-wrap: balance; }
+.hero h1 em, h2 em, h3 em { font-style: normal; color: var(--rose-deep); }
+.lead { font-size: 13.5px; line-height: 1.85; color: var(--ink-soft); margin: 0; }
+.portrait { width: 84px; height: 104px; border-radius: 42px 42px 8px 8px; background: center / cover no-repeat var(--mz-img); box-shadow: 0 0 0 1px var(--gold-soft), 0 0 0 5px var(--bg), 0 0 0 6px var(--line); margin: 0 6px 4px 0; }
+
+.menu-list { display: flex; flex-direction: column; }
+.menu-list .item { display: flex; gap: 14px; align-items: baseline; padding: 13px 4px; border-bottom: 1px solid var(--line); }
+.menu-list .item:first-child { border-top: 1px solid var(--line); }
+.menu-list .item b { font-family: var(--f-latin); font-style: italic; color: var(--gold); font-size: 16px; min-width: 22px; }
+.menu-list .item small { display: block; font-size: 12px; color: var(--ink-soft); }
+
+/* みずきのひとこと */
+.say { display: flex; gap: 10px; align-items: flex-start; }
+.avatar { width: 32px; height: 32px; border-radius: 50%; background: center / cover no-repeat var(--mz-img); flex-shrink: 0; box-shadow: 0 0 0 1px var(--gold-soft); }
+.bubble { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; border-top-left-radius: 6px; box-shadow: var(--shadow); padding: 11px 15px; font-size: 14.5px; line-height: 1.8; min-width: 0; }
+.bubble strong { color: var(--rose-deep); }
+
+/* question */
+.progress { display: grid; gap: 6px; padding-top: 18px; }
+.progress .meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-soft); }
+.progress .meta b { font-family: var(--f-latin); font-style: italic; font-size: 15px; color: var(--gold); font-weight: 600; }
+.bar { height: 3px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--rose-deep); border-radius: 3px; transition: width .3s; }
+h2 { font-family: var(--f-mincho); font-weight: 700; font-size: 22px; line-height: 1.5; margin: 0; text-wrap: balance; }
+h3 { font-family: var(--f-mincho); font-weight: 700; font-size: 16px; margin: 0; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; display: grid; gap: 14px; min-width: 0; }
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.fields .wide { grid-column: 1 / -1; }
+@media (max-width: 400px) { .fields { grid-template-columns: 1fr; } }
+label.f { display: grid; gap: 6px; font-size: 13px; font-weight: 700; min-width: 0; }
+label.f small { font-weight: 400; color: var(--ink-soft); font-size: 12px; }
+.inp { display: flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); padding-inline: 12px; }
+.inp:focus-within { border-color: var(--rose); }
+.inp input, .inp select { flex: 1; min-width: 0; border: 0; outline: none; background: transparent; font: 400 16px/1.5 var(--f-body); color: var(--ink); padding-block: 9px; font-variant-numeric: tabular-nums; }
+.inp .u { color: var(--ink-soft); font-size: 12px; white-space: nowrap; }
+textarea { width: 100%; font: 400 15px/1.6 var(--f-body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; resize: vertical; outline: none; }
+textarea:focus { border-color: var(--rose); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 500 13px/1 var(--f-body); padding: 10px 13px; border-radius: 999px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--rose-deep); border-color: var(--rose-deep); color: var(--on-rose); }
+
+.sumline { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; border-top: 1px solid var(--line); padding-top: 12px; }
+.sumline span { font-size: 13px; color: var(--ink-soft); }
+.sumline b { font-family: var(--f-mincho); font-size: 22px; color: var(--rose-deep); font-variant-numeric: tabular-nums; }
+.tag { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .04em; color: var(--rose-deep); background: var(--rose-veil); border-radius: 999px; padding: 2px 8px; margin-left: 6px; vertical-align: 1px; }
+
+.calc { border-top: 1px dashed var(--line); padding-top: 12px; display: grid; gap: 12px; }
+.linkbtn { font: 500 13px/1.5 var(--f-body); background: none; border: 0; padding: 0; color: var(--rose-deep); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; justify-self: start; }
+.note { font-size: 12px; color: var(--ink-soft); line-height: 1.8; margin: 0; }
+
+/* events */
+.events { display: grid; gap: 8px; }
+.ev { border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; display: grid; gap: 10px; background: var(--bg); }
+.ev[data-on="true"] { border-color: var(--rose); background: var(--surface); }
+.ev-head { display: flex; align-items: center; gap: 10px; cursor: pointer; font-weight: 700; font-size: 14px; }
+.ev-head input { width: 18px; height: 18px; accent-color: var(--rose-deep); }
+.ev-head small { font-weight: 400; color: var(--ink-soft); margin-left: auto; font-size: 12px; white-space: nowrap; }
+.ev .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* nav buttons */
+.navbar { position: sticky; bottom: 0; display: flex; gap: 10px; padding: 12px 18px calc(12px + env(safe-area-inset-bottom, 0px)); background: var(--bg); border-top: 1px solid var(--line); }
+.btn { flex: 1; font: 700 15px/1 var(--f-body); padding: 15px 18px; border-radius: 999px; cursor: pointer; border: 1px solid var(--rose-deep); background: var(--rose-deep); color: var(--on-rose); }
+.btn.ghost { flex: 0 0 auto; background: var(--surface); color: var(--ink); border-color: var(--line); }
+.btn.gold { background: var(--gold); border-color: var(--gold); color: var(--on-rose); }
+.btn-col { display: grid; gap: 10px; }
+
+/* result */
+.report { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 20px 18px 16px; display: grid; gap: 14px; box-shadow: var(--shadow); }
+.verdict { font-family: var(--f-mincho); font-weight: 700; font-size: 23px; line-height: 1.5; margin: 0; text-wrap: balance; }
+.verdict em { font-style: normal; color: var(--rose-deep); }
+.pill { justify-self: start; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; padding: 4px 11px; border-radius: 999px; }
+.pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.pill.ok { color: var(--good); background: var(--good-soft); }
+.pill.ng { color: var(--bad); background: var(--bad-soft); }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.stats div { padding: 12px 4px 0; text-align: center; min-width: 0; }
+.stats div + div { border-left: 1px solid var(--line); }
+.stats b { display: block; font-family: var(--f-mincho); font-size: 20px; font-weight: 700; color: var(--rose-deep); font-variant-numeric: tabular-nums; line-height: 1.3; }
+.stats b small { font-size: 12px; margin-left: 1px; }
+.stats span { font-size: 11px; color: var(--ink-soft); line-height: 1.4; display: block; }
+.need { background: var(--rose-veil); border-radius: 14px; padding: 14px 16px; display: grid; gap: 4px; }
+.need p { margin: 0; font-size: 13.5px; }
+.need b { font-family: var(--f-mincho); font-size: 26px; color: var(--rose-deep); font-variant-numeric: tabular-nums; }
+.section-head { display: grid; gap: 2px; }
+.section-head .eyebrow { margin: 0; }
+
+.chart { position: relative; }
+.chart svg { display: block; width: 100%; height: auto; touch-action: pan-y; cursor: crosshair; outline: none; }
+.tip { position: absolute; top: 4px; z-index: 3; width: 210px; pointer-events: none; background: var(--ink); color: var(--bg); border-radius: 12px; padding: 10px 12px; font-size: 12px; line-height: 1.55; box-shadow: 0 8px 24px rgba(0,0,0,.22); font-variant-numeric: tabular-nums; display: grid; gap: 2px; }
+.tip i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; box-shadow: 0 0 0 1px var(--bg); }
+.tip-title { display: flex; justify-content: space-between; align-items: baseline; font-size: 15px; font-family: var(--f-mincho); margin-bottom: 2px; }
+.tip-title span { font-size: 11px; font-family: var(--f-body); opacity: .75; }
+.tip-ev { font-weight: 700; color: var(--gold-soft); margin-bottom: 2px; }
+.tip-row { display: flex; justify-content: space-between; gap: 10px; }
+.tip-row span:last-child { white-space: nowrap; }
+.tip-row.strong { font-weight: 700; }
+.tip-row.sub { opacity: .78; font-size: 11px; padding-left: 16px; }
+.tip-sep { height: 1px; background: currentColor; opacity: .25; margin: 4px 0; }
+.tip-neg { color: #FFB4AE; }
+.chart svg:focus-visible { outline: 2px solid var(--rose); outline-offset: 2px; border-radius: 6px; }
+.tip.light { background: var(--surface); color: var(--ink); border: 1px solid var(--line); width: 190px; top: 8px; }
+.tip.light .tip-title { font-size: 14px; }
+.tip-sub { font-size: 11px; color: var(--ink-soft); }
+.tip.light .in { color: var(--c-in); } .tip.light .out { color: var(--c-out); }
+.tip-msg { font-weight: 700; font-size: 13px; }
+.comment { font-size: 13.5px; line-height: 1.9; margin: 4px 0 0; }
+.checkpoints { display: grid; gap: 6px; }
+.cp { display: flex; align-items: center; gap: 8px; font-size: 13px; background: var(--bad-soft); border-radius: 10px; padding: 7px 10px; }
+.cp b { font-variant-numeric: tabular-nums; }
+.bang { width: 18px; height: 18px; border-radius: 50%; background: var(--bad); color: var(--surface); font-weight: 700; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.whatif { border-color: var(--gold-soft); }
+.sliders { display: grid; gap: 14px; }
+.sl { display: grid; gap: 4px; }
+.sl-head { display: flex; justify-content: space-between; gap: 10px; font-size: 13.5px; font-weight: 700; }
+.sl-head b { color: var(--rose-deep); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sl input[type="range"] { width: 100%; accent-color: var(--rose-deep); height: 28px; }
+.cmp-grid { display: grid; gap: 6px; }
+.cmp-card { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; align-items: baseline; gap: 6px; font-size: 12.5px; background: var(--bg); border-radius: 10px; padding: 8px 10px; font-variant-numeric: tabular-nums; }
+.cmp-card .k { color: var(--ink-soft); }
+.cmp-card .b { color: var(--ink-soft); }
+.cmp-card .arrow { color: var(--gold); }
+.cmp-card .a { font-weight: 700; font-size: 14px; }
+.cmp-card .a.up { color: var(--good); }
+.chip:disabled { opacity: .45; cursor: default; }
+.conds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 12px; margin: 0; background: var(--rose-veil); border-radius: 14px; padding: 12px 14px; }
+.conds div { display: grid; gap: 0; min-width: 0; }
+.conds dt { font-size: 11px; color: var(--ink-soft); }
+.conds dd { margin: 0; font-size: 13px; font-weight: 700; overflow-wrap: anywhere; }
+.advice { display: grid; gap: 12px; }
+.advice p { margin: 0; font-size: 13.5px; line-height: 1.95; }
+.notebox { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.notebox p { margin: 0; font-size: 12px; color: var(--ink-soft); line-height: 1.8; }
+.hero-card { background: var(--rose-deep); color: var(--on-rose); border-radius: 22px; padding: 20px 18px 18px; display: grid; gap: 10px; box-shadow: var(--shadow); }
+.hero-card .eyebrow { color: var(--on-rose); opacity: .8; margin: 0; }
+.hero-lead { margin: 0; font-size: 14px; font-weight: 700; }
+.hero-num { margin: 0; font-family: var(--f-mincho); line-height: 1.1; font-variant-numeric: tabular-nums; }
+.hero-num b { font-size: clamp(40px, 12vw, 52px); letter-spacing: .01em; }
+.hero-num span { font-size: 18px; margin-left: 4px; }
+.hero-sub { margin: 0; font-size: 13.5px; }
+.hero-sub b { font-size: 16px; }
+.hero-note { margin: 0; font-size: 13px; background: rgba(255,255,255,.14); border-radius: 10px; padding: 8px 10px; }
+.steps2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.steps2 > div { background: rgba(255,255,255,.14); border-radius: 12px; padding: 10px 12px; display: grid; gap: 2px; min-width: 0; }
+.steps2 .lbl { font-size: 11px; font-weight: 700; opacity: .85; }
+.steps2 b { font-family: var(--f-mincho); font-size: 20px; font-variant-numeric: tabular-nums; }
+.steps2 small { font-size: 11px; line-height: 1.5; opacity: .85; }
+.hero-grid { display: grid; gap: 8px; margin-top: 4px; }
+.hg { background: var(--surface); color: var(--ink); border-radius: 14px; padding: 12px 14px; display: grid; gap: 6px; }
+.hg .lbl { font-size: 11px; font-weight: 700; color: var(--gold); letter-spacing: .04em; }
+.hg-main { margin: 0; font-size: 14px; line-height: 1.6; }
+.hg-main b { font-family: var(--f-mincho); font-size: 19px; color: var(--rose-deep); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.hg-foot { margin: 0; font-size: 11.5px; color: var(--ink-soft); display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-variant-numeric: tabular-nums; }
+.hg-foot.ok { color: var(--good); font-weight: 700; } .hg-foot.ng { color: var(--bad); font-weight: 700; }
+.pbar { height: 10px; border-radius: 999px; background: var(--rose-veil); overflow: hidden; }
+.pbar i { display: block; height: 100%; background: var(--gold); border-radius: 999px; }
+.hint { font-size: 11.5px; color: var(--ink-soft); margin: 2px 0 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12px; color: var(--ink-soft); }
+.legend i { display: inline-block; width: 16px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; max-height: 420px; overflow-y: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+th, td { padding: 8px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line); }
+th { position: sticky; top: 0; background: var(--rose-veil); color: var(--ink); font-weight: 700; font-size: 11.5px; }
+td:first-child, th:first-child { text-align: left; }
+td.ev-cell { text-align: left; color: var(--rose-deep); font-weight: 700; white-space: normal; min-width: 96px; font-size: 11.5px; }
+td.neg { color: var(--bad); font-weight: 700; }
+tr.mark td { background: var(--rose-veil); }
+
+.small { font-size: 13px; color: var(--ink-soft); margin: 0; line-height: 1.8; }
+.type-name { font-size: 20px; color: var(--rose-deep); }
+.rings { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; border-top: 1px solid var(--line); padding-top: 12px; }
+.ring { display: grid; justify-items: center; gap: 2px; text-align: center; min-width: 0; }
+.ring svg { width: 76px; height: 76px; }
+.ring b { font-size: 13px; }
+.m-state { font-size: 10.5px; font-weight: 700; padding: 1px 8px; border-radius: 999px; }
+.m-state.ok { color: var(--good); background: var(--good-soft); }
+.m-state.ng { color: var(--bad); background: var(--bad-soft); }
+.m-foot { font-size: 10.5px; color: var(--ink-soft); line-height: 1.5; }
+.tabs { display: flex; gap: 6px; overflow-x: auto; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 57px); z-index: 4; background: var(--bg); padding-block: 8px; margin-inline: -18px; padding-inline: 18px; border-bottom: 1px solid var(--line); }
+.tab { flex-shrink: 0; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 700 13px/1 var(--f-body); padding: 11px 14px; border-radius: 999px; cursor: pointer; }
+.tab[aria-selected="true"] { background: var(--rose-deep); border-color: var(--rose-deep); color: var(--on-rose); }
+.guide { display: grid; gap: 12px; }
+.g-row { display: grid; gap: 4px; }
+.g-head { display: flex; justify-content: space-between; gap: 8px; font-size: 13.5px; font-weight: 700; }
+.g-head b { font-variant-numeric: tabular-nums; color: var(--rose-deep); font-weight: 700; }
+.g-track { position: relative; height: 10px; background: var(--rose-veil); border-radius: 999px; }
+.g-range { position: absolute; top: 0; bottom: 0; background: var(--c-ev); opacity: .55; border-radius: 999px; }
+.g-dot { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--rose-deep); box-shadow: 0 0 0 2px var(--surface); }
+.g-dot.inline { position: static; display: inline-block; margin: 0 2px -1px 0; vertical-align: 0; }
+.sc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.sc { text-align: left; display: grid; gap: 4px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 14px; padding: 12px; cursor: pointer; font: inherit; }
+.sc[aria-pressed="true"] { border-color: var(--s-alt); background: var(--surface); box-shadow: 0 0 0 1px var(--s-alt); }
+.sc-label { font-family: var(--f-mincho); font-weight: 700; font-size: 15px; }
+.sc-state { font-size: 11px; font-weight: 700; }
+.sc-state.ok { color: var(--good); } .sc-state.ng { color: var(--bad); }
+.sc-need { font-size: 12px; color: var(--ink-soft); }
+.sc-need b { font-size: 16px; color: var(--rose-deep); font-variant-numeric: tabular-nums; margin: 0 1px; }
+table.cmp td:first-child { font-weight: 700; }
+table.cmp th, table.cmp td { padding: 8px 7px; }
+table.cmp th { white-space: normal; }
+.table-wrap.cf { max-height: none; }
+.cf table { font-size: 12px; }
+.cf th, .cf td { padding: 7px 9px; }
+.cf .stick { position: sticky; left: 0; z-index: 2; background: var(--surface); text-align: left; font-weight: 700; border-right: 1px solid var(--line); }
+.cf thead .stick { z-index: 3; background: var(--rose-veil); }
+.cf th.hl { background: var(--rose-mist); }
+.cf td.hl { background: var(--rose-veil); }
+.cf tr.sub td, .cf tr.sub th { color: var(--ink-soft); font-weight: 400; }
+.cf tr.evrow td { color: var(--rose-deep); font-weight: 700; text-align: left; white-space: nowrap; font-size: 11px; }
+.cf tr.in-total td, .cf tr.in-total th { color: var(--c-in); font-weight: 700; border-top: 1px solid var(--ink-soft); }
+.cf tr.out-total td, .cf tr.out-total th { color: var(--c-out); font-weight: 700; border-top: 1px solid var(--ink-soft); }
+.cf tr.bal td, .cf tr.bal th { border-top: 1px solid var(--ink-soft); font-weight: 700; }
+.cf tr.tot td, .cf tr.tot th { font-weight: 700; background: var(--rose-veil); }
+.goal-quote { font-family: var(--f-mincho); font-size: 15px; line-height: 1.8; border-left: 2px solid var(--gold-soft); padding-left: 12px; margin: 0; }
+footer { font-size: 11.5px; color: var(--ink-soft); line-height: 1.8; padding-top: 6px; }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .ev-head:focus-within { outline: 2px solid var(--rose); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div id="app"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+const { useState, useMemo, useRef } = React;
+const html = htm.bind(React.createElement);
+const STORE_KEY = "mizuki-lifeplan-v3";
+const END_AGE = 90, RETIRE_AGE = 65;
+
+// ---------- 表示 ----------
+const yen = (n) => (Math.round(n) || 0).toLocaleString("ja-JP");
+const man = (n) => {
+  const v = n / 10000, a = Math.abs(v);
+  const r = a >= 1000 ? Math.round(v) : a >= 100 ? Math.round(v) : Math.round(v * 10) / 10;
+  return r.toLocaleString("ja-JP");
+};
+
+// ---------- 選択肢 ----------
+const FAMILY = [
+  { id: "single", label: "ひとり" },
+  { id: "partner", label: "パートナーと" },
+  { id: "partnerKids", label: "パートナーと子ども" },
+  { id: "kids", label: "子どもと" },
+];
+const AFTER = [
+  { id: "shop", label: "自分のお店(スナック・バー)", net: 250000 },
+  { id: "lounge", label: "ラウンジ・クラブへ", net: 280000 },
+  { id: "day", label: "昼職", net: 180000 },
+  { id: "family", label: "家庭中心(パートなど)", net: 80000 },
+  { id: "undecided", label: "まだ決めていない", net: 180000 },
+];
+const EXPENSES = [
+  { id: "rent", label: "家賃・光熱費", std: 70000 },
+  { id: "food", label: "食費・日用品", std: 40000 },
+  { id: "phone", label: "スマホ・保険・サブスク", std: 15000 },
+  { id: "beauty", label: "ヘアセット・ネイル・美容", work: true, std: 30000 },
+  { id: "dress", label: "ドレス・衣装", work: true, std: 15000 },
+  { id: "taxi", label: "タクシー・送迎", work: true, std: 15000 },
+  { id: "splurge", label: "つい使ってしまうお金", hint: "買い物・遊び・付き合い・ごほうびなど", std: 50000 },
+];
+// 叶えたいことと、お金の目安(min〜max は「よく言われる目安」の幅。amount は初期値)
+const EVENTS = [
+  { id: "shop", label: "自分のお店を開く", age: 28, amount: 6000000, min: 3000000, max: 10000000, hint: "居抜き物件なら安く、内装からだと高くなる" },
+  { id: "move", label: "引っ越し", age: 25, amount: 500000, min: 300000, max: 800000, hint: "敷金・礼金など家賃の4〜6か月分+家具家電" },
+  { id: "study", label: "資格・学び直し", age: 29, amount: 1000000, min: 300000, max: 2000000, hint: "スクール代と、通う間の生活費の足し" },
+  { id: "wedding", label: "結婚", age: 30, amount: 2000000, min: 500000, max: 3500000, hint: "入籍と写真だけなら少なめ、挙式・披露宴をすると多め" },
+  { id: "baby", label: "出産・子育て", age: 31, amount: 100000, min: 0, max: 500000, hint: "出産の自己負担。国の一時金50万円で大部分がまかなえる。その後22年間、月4万円の子育て・教育費を加えます" },
+  { id: "car", label: "車を買う", age: 32, amount: 2000000, min: 1500000, max: 3500000, hint: "軽自動車なら少なめ、普通車なら多め" },
+  { id: "house", label: "家を買う(頭金)", age: 35, amount: 3000000, min: 2000000, max: 8000000, hint: "物件価格の1〜2割+諸費用" },
+];
+const KID_COST = 40000; // 子ども1人あたりの月の子育て・教育費(22年で約1,000万円。公立中心の目安)
+
+// ---------- ペルソナ「あい」の入力例 ----------
+const SAMPLE = {
+  name: "あい", age: 24, family: "single", kids: 0, kidAge: 0,
+  nightNet: 300000, quitAge: 30,
+  calc: { hourly: 3500, hours: 5, days: 16, noms: 20, back: 2000, withhold: true },
+  sideNet: 0, partnerNet: 0, after: "shop", afterNet: 250000,
+  exp: { rent: 75000, food: 40000, phone: 15000, beauty: 45000, dress: 20000, taxi: 15000, splurge: 60000 },
+  savings: 1500000, invested: 0, investMonthly: 0, rate: 3,
+  events: { shop: { on: true, age: 28, amount: 6000000 } },
+  why: "ずっと夜で働くのは不安。常連さんが帰ってこられる、自分の居場所を作りたい",
+  pension: 69000, partnerPension: 69000, retireLiving: 150000,
+};
+const QUESTIONS = ["あなたのこと", "夜のお仕事", "そのほかの収入", "毎月の支出", "いまの貯金", "叶えたいこと", "老後のこと"];
+
+function loadState() {
+  try { const s = localStorage.getItem(STORE_KEY); if (s) { const p = JSON.parse(s); return { d: { ...SAMPLE, ...p.d }, screen: p.screen ?? 0, touched: true }; } } catch (e) {}
+  return { d: SAMPLE, screen: 0, touched: false };
+}
+function saveState(d, screen) { try { localStorage.setItem(STORE_KEY, JSON.stringify({ d, screen })); } catch (e) {} }
+
+// ---------- 夜の手取り計算(源泉徴収) ----------
+function nightFromCalc(c) {
+  const gross = c.hourly * c.hours * c.days + c.noms * c.back;
+  const tax = c.withhold ? Math.max(0, gross - 5000 * 30) * 0.1021 : 0;
+  return { gross, tax, net: gross - tax };
+}
+
+// ---------- シミュレーション(1年ごと) ----------
+const hasPartner = (d) => d.family === "partner" || d.family === "partnerKids";
+const hasKids = (d) => d.family === "partnerKids" || d.family === "kids";
+const sumExp = (d, pred) => EXPENSES.filter(pred).reduce((s, e) => s + (d.exp[e.id] || 0), 0);
+const activeEvents = (d) => EVENTS.filter((e) => d.events[e.id]?.on).map((e) => ({ ...e, ...d.events[e.id] }));
+
+function simulate(d, opt = {}) {
+  const extra = opt.extra || 0;               // 今から65歳まで毎月上乗せする貯金
+  const splurgeRate = opt.splurgeRate ?? 1;    // つい使うお金の倍率
+  const rows = [];
+  let cash = d.savings, inv = d.invested;
+  const r = (d.rate || 0) / 100;
+  const workExp = sumExp(d, (e) => e.work);
+  const baseExp = sumExp(d, (e) => !e.work && e.id !== "splurge");
+  const on = activeEvents(d);
+  const baby = on.find((e) => e.id === "baby");
+  const year0 = new Date().getFullYear();
+  for (let a = d.age; a <= END_AGE; a++) {
+    const working = a < RETIRE_AGE, night = a < d.quitAge;
+    const inNight = night ? (d.nightNet + d.sideNet) * 12 : 0;
+    const inAfter = !night && working ? d.afterNet * 12 : 0;
+    const inPartner = hasPartner(d) ? (working ? d.partnerNet : d.partnerPension) * 12 : 0;
+    const inPension = working ? 0 : d.pension * 12;
+    const inExtra = working ? extra * 12 : 0;
+    const outLiving = working ? baseExp * 12 : d.retireLiving * 12;
+    const outWork = night ? workExp * 12 : 0;
+    const outSplurge = working ? (d.exp.splurge || 0) * splurgeRate * 12 : 0;
+    let kidsN = 0;
+    if (hasKids(d) && d.kids > 0 && d.kidAge + (a - d.age) < 22) kidsN += d.kids;
+    if (baby && a > baby.age && a <= baby.age + 22) kidsN += 1;
+    const outKids = kidsN * KID_COST * 12;
+    const evs = on.filter((e) => e.age === a);
+    const outEvent = evs.reduce((s, e) => s + (e.amount || 0), 0);
+    const income = inNight + inAfter + inPartner + inPension + inExtra;
+    const spend = outLiving + outWork + outSplurge + outKids + outEvent;
+    const contrib = working && (d.investYears == null || a < d.age + d.investYears) ? d.investMonthly * 12 : 0;
+    cash += income - spend - contrib;
+    inv = inv * (1 + r) + contrib;
+    if (cash < 0 && inv > 0) { const take = Math.min(inv, -cash); inv -= take; cash += take; }
+    rows.push({ age: a, year: year0 + (a - d.age), inNight, inAfter, inPartner, inPension, inExtra, outLiving, outWork, outSplurge, outKids, outEvent,
+      income, spend, events: evs.map((e) => e.label), balance: income - spend, total: cash + inv });
+  }
+  return rows;
+}
+
+function needExtra(d) {
+  if (simulate(d).every((x) => x.total >= 0)) return 0;
+  let lo = 0, hi = 3000000;
+  for (let i = 0; i < 36; i++) { const mid = (lo + hi) / 2; if (simulate(d, { extra: mid }).every((x) => x.total >= 0)) hi = mid; else lo = mid; }
+  return Math.ceil(hi / 100) * 100;
+}
+
+function summarize(rows) {
+  const minRow = rows.reduce((m, x) => (x.total < m.total ? x : m), rows[0]);
+  return { minRow, firstNeg: rows.find((x) => x.total < 0), at65: rows.find((x) => x.age === RETIRE_AGE) || rows[rows.length - 1], last: rows[rows.length - 1], ok: minRow.total >= 0 };
+}
+
+// 「もしも」のバージョン:いまのプランに1つだけ足して比べる
+function scenarios(d) {
+  const wAge = d.events.wedding?.on ? d.events.wedding.age : Math.max(30, d.age + 2);
+  const ev = (id, p) => ({ ...d.events, [id]: { on: true, age: EVENTS.find((e) => e.id === id).age, amount: EVENTS.find((e) => e.id === id).amount, ...(d.events[id]?.on ? d.events[id] : {}), ...p } });
+  return [
+    { id: "wedding", label: "結婚したら", desc: `${wAge}歳で結婚(${man(EVENTS[3].amount)}万円)`, d: { ...d, events: ev("wedding", { age: wAge }) } },
+    { id: "baby", label: "子どもができたら", desc: `${wAge}歳で結婚、${wAge + 1}歳で出産。大学まで約1,000万円`, d: { ...d, events: { ...ev("wedding", { age: wAge }), baby: { on: true, age: wAge + 1, amount: EVENTS[4].amount } } } },
+    { id: "shop", label: "お店を開いたら", desc: `${d.quitAge}歳で開業(${man(EVENTS[0].amount)}万円)、その後の手取り月25万円`, d: { ...d, after: "shop", afterNet: 250000, events: ev("shop", { age: d.quitAge }) } },
+    { id: "day", label: "昼職に移ったら", desc: `${d.quitAge}歳で卒業して昼職へ。手取り月18万円`, d: { ...d, after: "day", afterNet: 180000 } },
+  ];
+}
+
+// 診断:3つのものさし
+function diagnose(d, s, rows) {
+  const r0 = rows[0];
+  const takeHome = r0.inNight + r0.inPartner;
+  const monthlyLeft = (takeHome - r0.outLiving - r0.outWork - r0.outSplurge - r0.outKids) / 12;
+  const saveRate = takeHome > 0 ? monthlyLeft / (takeHome / 12) : 0;
+  const afterLiving = sumExp(d, (e) => !e.work) ;
+  const quitRow = rows.find((x) => x.age === d.quitAge) || rows[0];
+  const graduateMonths = afterLiving > 0 ? Math.max(0, quitRow.total) / afterLiving : 0;
+  const oldGapYear = (d.retireLiving - d.pension - (hasPartner(d) ? d.partnerPension : 0)) * 12;
+  const oldNeed = Math.max(0, oldGapYear * (END_AGE - RETIRE_AGE));
+  const oldRate = oldNeed > 0 ? Math.max(0, s.at65.total) / oldNeed : 1;
+  const meters = [
+    { id: "save", label: "貯金力", value: saveRate, goal: 0.2, show: `手取りの${Math.round(saveRate * 100)}%を貯金`, goalText: "目安は20%" },
+    { id: "grad", label: "卒業の準備", value: graduateMonths / 6, goal: 1, show: `${d.quitAge}歳の時の貯金で${Math.floor(graduateMonths)}か月暮らせる`, goalText: "目安は6か月分" },
+    { id: "old", label: "老後の準備", value: oldRate, goal: 1, show: oldNeed > 0 ? `老後に必要な${man(oldNeed)}万円の${Math.round(Math.min(oldRate, 9.99) * 100)}%` : "年金で生活費がまかなえる計算", goalText: "目安は100%" },
+  ];
+  const weakest = meters.map((m) => ({ ...m, ratio: m.value / m.goal })).sort((a, b) => a.ratio - b.ratio)[0];
+  const TYPES = {
+    save: { name: "「つい使っちゃう」タイプ", text: "稼ぐ力はあるのに、お金が手元に残りにくい。使い道を仕分けるだけで大きく変わります。" },
+    grad: { name: "「卒業ギャップ」タイプ", text: "今は回っていても、夜を卒業した後に収入の落差がきそう。卒業前の準備がカギです。" },
+    old: { name: "「老後はまだ先」タイプ", text: "目の前のお金は大丈夫。でも65歳からの分がまだ足りていません。早く始めるほどラクになります。" },
+    good: { name: "「コツコツ貯め上手」タイプ", text: "3つのものさしがどれも目安を超えています。次は叶えたいことを増やす番です。" },
+  };
+  const type = weakest.ratio >= 1 ? TYPES.good : TYPES[weakest.id];
+  return { meters, type, monthlyLeft };
+}
+
+function analyze(d) {
+  const rows = simulate(d);
+  const s = summarize(rows);
+  const alt = simulate(d, { splurgeRate: 0.5 });
+  const need = needExtra(d);
+  const householdYear = (d.nightNet + d.sideNet + (hasPartner(d) ? d.partnerNet : 0)) * 12;
+  const workExp = sumExp(d, (e) => e.work);
+  const sc = scenarios(d).map((x) => { const r = simulate(x.d); return { ...x, rows: r, s: summarize(r), need: needExtra(x.d) }; });
+  return { rows, alt, ...s, alt65: summarize(alt).at65, need, householdYear, workExp, sc, dx: diagnose(d, s, rows) };
+}
+
+// ---------- 部品 ----------
+function Num({ id, label, sub, unit = "円", value, onChange, step = 1000, min = 0, wide }) {
+  return html`<label class=${"f" + (wide ? " wide" : "")} htmlFor=${id}><span>${label}${sub && html` <small>${sub}</small>`}</span>
+    <span class="inp"><input id=${id} type="number" inputmode="numeric" min=${min} step=${step} value=${value}
+      onChange=${(e) => onChange(e.target.value === "" ? 0 : Number(e.target.value))} /><span class="u">${unit}</span></span></label>`;
+}
+function Chips({ items, value, onPick, label }) {
+  return html`<div class="chips" role="group" aria-label=${label}>
+    ${items.map((x) => html`<button type="button" key=${x.id} class="chip" aria-pressed=${value === x.id} onClick=${() => onPick(x.id)}>${x.label}</button>`)}</div>`;
+}
+function Say({ children }) {
+  return html`<div class="say"><div class="avatar" role="img" aria-label="みずき"></div><div class="bubble">${children}</div></div>`;
+}
+
+// ---------- 質問画面 ----------
+function Q1({ d, set }) {
+  return html`
+    <${Say}>まずはあなたのことから。一緒に暮らしてる人がいるかで、お金の流れがけっこう変わるで。<//>
+    <div class="panel">
+      <div class="fields">
+        <label class="f" htmlFor="name">呼んでほしい名前 <small>任意</small>
+          <span class="inp"><input id="name" maxLength="20" value=${d.name} onChange=${(e) => set({ name: e.target.value })} /></span></label>
+        <${Num} id="age" label="いまの年齢" unit="歳" step=${1} value=${d.age} onChange=${(v) => set({ age: Math.min(Math.max(v, 18), 60) })} />
+      </div>
+      <label class="f">いっしょに暮らしている人<//>
+      <${Chips} items=${FAMILY} value=${d.family} label="家族構成" onPick=${(v) => set({ family: v })} />
+      ${hasKids(d) && html`<div class="fields">
+        <${Num} id="kids" label="子どもの人数" unit="人" step=${1} value=${d.kids} onChange=${(v) => set({ kids: v })} />
+        <${Num} id="kidAge" label="いちばん下の子の年齢" unit="歳" step=${1} value=${d.kidAge} onChange=${(v) => set({ kidAge: v })} />
+      </div><p class="note">子ども1人につき、22歳まで月${yen(KID_COST)}円の子育て・教育費(大学まで約1,000万円の目安)で計算します。</p>`}
+    </div>`;
+}
+
+function Q2({ d, set }) {
+  const [open, setOpen] = useState(false);
+  const c = d.calc, res = nightFromCalc(c);
+  const setC = (p) => set({ calc: { ...c, ...p } });
+  return html`
+    <${Say}>夜の手取りは月によってバラバラやと思うから、<strong>ならした平均</strong>でOK。分からん人は時給から計算してみてな。<//>
+    <div class="panel">
+      <${Num} id="nightNet" label="夜の手取り(月の平均)" step=${10000} value=${d.nightNet} onChange=${(v) => set({ nightNet: v })} />
+      <div class="chips" role="group" aria-label="手取りの早見">${[150000, 200000, 300000, 400000, 500000].map((v) => html`<button type="button" key=${v} class="chip" aria-pressed=${d.nightNet === v} onClick=${() => set({ nightNet: v })}>${man(v)}万円</button>`)}</div>
+      <button type="button" class="linkbtn" onClick=${() => setOpen(!open)}>${open ? "計算をとじる" : "時給・指名数から計算する"}</button>
+      ${open && html`<div class="calc">
+        <div class="fields">
+          <${Num} id="hourly" label="時給" step=${100} value=${c.hourly} onChange=${(v) => setC({ hourly: v })} />
+          <${Num} id="hours" label="1日の勤務" unit="時間" step=${0.5} value=${c.hours} onChange=${(v) => setC({ hours: v })} />
+          <${Num} id="days" label="月の出勤" unit="日" step=${1} value=${c.days} onChange=${(v) => setC({ days: v })} />
+          <${Num} id="noms" label="月の本指名" unit="本" step=${1} value=${c.noms} onChange=${(v) => setC({ noms: v })} />
+          <${Num} id="back" label="指名バック(1本)" step=${500} value=${c.back} onChange=${(v) => setC({ back: v })} />
+        </div>
+        <label class="f" style=${{ display: "flex", gap: "8px", alignItems: "center", fontWeight: 500 }} htmlFor="withhold">
+          <input id="withhold" type="checkbox" checked=${c.withhold} onChange=${(e) => setC({ withhold: e.target.checked })} />お店で源泉徴収されている</label>
+        <p class="note">総支給 ${yen(res.gross)}円${c.withhold ? `/源泉徴収 −${yen(res.tax)}円((総支給 − 5,000円×30日)× 10.21%)` : ""}</p>
+        <button type="button" class="btn gold" onClick=${() => { set({ nightNet: Math.round(res.net / 1000) * 1000 }); setOpen(false); }}>手取り ${yen(res.net)}円 を入れる</button>
+      </div>`}
+      <${Num} id="quitAge" label="夜のお仕事は何歳まで？" sub="予定でOK" unit="歳まで" step=${1} value=${d.quitAge} onChange=${(v) => set({ quitAge: Math.max(v, d.age) })} />
+    </div>`;
+}
+
+function Q3({ d, set }) {
+  const year = (d.nightNet + d.sideNet + (hasPartner(d) ? d.partnerNet : 0)) * 12;
+  return html`
+    <${Say}>昼職との掛け持ちや、パートナーの収入もここで。それから、<strong>夜を卒業したあと</strong>の収入も考えとこ。卒業した月から、生活が急に変わる人が多いねん。<//>
+    <div class="panel">
+      <div class="fields">
+        <${Num} id="sideNet" label="昼職・副業の手取り" sub="月" step=${10000} value=${d.sideNet} onChange=${(v) => set({ sideNet: v })} />
+        ${hasPartner(d) && html`<${Num} id="partnerNet" label="パートナーの手取り" sub="月" step=${10000} value=${d.partnerNet} onChange=${(v) => set({ partnerNet: v })} />`}
+      </div>
+      <div class="sumline"><span>いまの世帯の手取り年収</span><b>${man(year)}<small>万円</small></b></div>
+    </div>
+    <div class="panel">
+      <h3>${d.quitAge}歳で夜を卒業したあとは？</h3>
+      <${Chips} items=${AFTER} value=${d.after} label="卒業後の道" onPick=${(v) => set({ after: v, afterNet: AFTER.find((a) => a.id === v).net })} />
+      <${Num} id="afterNet" label="卒業後の手取り" sub="月・65歳まで" step=${10000} value=${d.afterNet} onChange=${(v) => set({ afterNet: v })} />
+      <p class="note">選んだ道に合わせて目安を入れています。自分の見込みに書きかえてください。</p>
+    </div>`;
+}
+
+function Q4({ d, set }) {
+  const setE = (id, v) => set({ exp: { ...d.exp, [id]: v } });
+  const total = EXPENSES.reduce((s, e) => s + (d.exp[e.id] || 0), 0);
+  const income = d.nightNet + d.sideNet + (hasPartner(d) ? d.partnerNet : 0);
+  return html`
+    <${Say}>ここがいちばん大事かも。<strong>「つい使ってしまうお金」</strong>は責めるための欄じゃないから、正直に書いてな。数字にすると、それだけで変わるで。<//>
+    <div class="panel">
+      <button type="button" class="btn gold" onClick=${() => set({ exp: Object.fromEntries(EXPENSES.map((e) => [e.id, e.std])) })}>分からない人は:ひとり暮らしの目安を入れる</button>
+      ${EXPENSES.map((e) => html`<${Num} key=${e.id} id=${"exp-" + e.id} label=${html`${e.label}${e.work && html`<span class="tag">卒業後はなし</span>`}`}
+        sub=${e.hint} step=${1000} value=${d.exp[e.id]} onChange=${(v) => setE(e.id, v)} />`)}
+      <div class="sumline"><span>毎月の支出</span><b>${yen(total)}<small>円</small></b></div>
+      <div class="sumline"><span>毎月残るお金</span><b style=${{ color: income - total < 0 ? "var(--bad)" : undefined }}>${yen(income - total)}<small>円</small></b></div>
+    </div>`;
+}
+
+function Q5({ d, set }) {
+  return html`
+    <${Say}>貯金と投資、分けて入れてな。<strong>預金は減らへんけどほとんど増えへん</strong>、投資は増えることもあるけど減ることもある。違いは結果の画面で見られるで。<//>
+    <div class="panel">
+      <div class="fields">
+        <${Num} id="savings" label="いまの預貯金" step=${10000} value=${d.savings} onChange=${(v) => set({ savings: v })} />
+        <${Num} id="invested" label="投資しているお金" sub="NISAなど" step=${10000} value=${d.invested} onChange=${(v) => set({ invested: v })} />
+        <${Num} id="investMonthly" label="毎月の積立投資" sub=${d.investYears ? `${d.investYears}年間` : "65歳まで"} step=${1000} value=${d.investMonthly} onChange=${(v) => set({ investMonthly: v })} />
+        <label class="f" htmlFor="rate">積立投資の想定利回り
+          <span class="inp"><select id="rate" value=${d.rate} onChange=${(e) => set({ rate: Number(e.target.value) })}>
+            ${[0, 1, 2, 3, 4, 5].map((r) => html`<option key=${r} value=${r}>年${r}%</option>`)}</select></span></label>
+      </div>
+      ${d.investYears != null && html`<${Num} id="investYears" label="積立する期間" unit="年" step=${1} value=${d.investYears} onChange=${(v) => set({ investYears: v || null })} />`}
+      <p class="note">利回りは計算のための仮定です。投資は元本が保証されず、将来の成績を約束するものではありません。</p>
+    </div>`;
+}
+
+function Q6({ d, set }) {
+  const setEv = (id, p) => { const e = EVENTS.find((x) => x.id === id); set({ events: { ...d.events, [id]: { age: e.age, amount: e.amount, on: false, ...d.events[id], ...p } } }); };
+  return html`
+    <${Say}>「なんのために貯めてるか分からへん」って声、ほんまに多いねん。<strong>叶えたいことに年齢と金額をつける</strong>と、貯金にゴールができるで。金額が分からんくても大丈夫、よく言われる目安を先に入れてあるから、チェックするだけでOK。<//>
+    <div class="panel">
+      <label class="f" htmlFor="why">なんのために貯める？ <small>ひとことで</small>
+        <textarea id="why" rows="2" value=${d.why} onChange=${(e) => set({ why: e.target.value })}></textarea></label>
+    </div>
+    <div class="events">
+      ${EVENTS.map((e) => { const v = { ...e, on: false, ...d.events[e.id] }; return html`<div class="ev" key=${e.id} data-on=${v.on}>
+        <label class="ev-head" htmlFor=${"ev-" + e.id}><input type="checkbox" id=${"ev-" + e.id} checked=${v.on} onChange=${(x) => setEv(e.id, { on: x.target.checked })} />${e.label}<small>目安 ${man(e.min)}〜${man(e.max)}万円</small></label>
+        ${v.on && html`<p class="note">${e.hint}</p>`}
+        ${v.on && html`<div class="fields">
+          <${Num} id=${"eva-" + e.id} label="何歳で" unit="歳" step=${1} value=${v.age} onChange=${(x) => setEv(e.id, { age: x })} />
+          <${Num} id=${"evm-" + e.id} label="いくら" step=${100000} value=${v.amount} onChange=${(x) => setEv(e.id, { amount: x })} />
+        </div>`}</div>`; })}
+    </div>`;
+}
+
+function Q7({ d, set }) {
+  return html`
+    <${Say}>最後に老後のこと。夜のお仕事の人は<strong>国民年金だけ</strong>のことが多いねん。未納の期間があると、その分減るから注意してな。<//>
+    <div class="panel">
+      <div class="fields">
+        <${Num} id="pension" label="年金の見込み" sub="月・65歳から" step=${1000} value=${d.pension} onChange=${(v) => set({ pension: v })} />
+        ${hasPartner(d) && html`<${Num} id="partnerPension" label="パートナーの年金" sub="月" step=${1000} value=${d.partnerPension} onChange=${(v) => set({ partnerPension: v })} />`}
+        <${Num} id="retireLiving" label="老後の生活費" sub="月・世帯" step=${10000} value=${d.retireLiving} onChange=${(v) => set({ retireLiving: v })} wide=${!hasPartner(d)} />
+      </div>
+      <p class="note">国民年金を40年間納めた場合の満額は月およそ7万円です。自分の見込み額は「ねんきんネット」や毎年届く「ねんきん定期便」で確認できます。</p>
+    </div>`;
+}
+const QS = [Q1, Q2, Q3, Q4, Q5, Q6, Q7];
+
+// ---------- グラフ共通 ----------
+function niceScale(minV, maxV, count = 4) {
+  const span = maxV - minV || 1;
+  const raw = span / count, p = Math.pow(10, Math.floor(Math.log10(raw))), n = raw / p;
+  const step = (n <= 1 ? 1 : n <= 2 ? 2 : n <= 5 ? 5 : 10) * p;
+  const lo = Math.floor(minV / step) * step, hi = Math.ceil(maxV / step) * step;
+  const ticks = []; for (let v = lo; v <= hi + step / 2; v += step) ticks.push(v);
+  return { lo, hi, ticks };
+}
+function useHover(ref, W, L, R, from, to) {
+  const [hover, setHover] = useState(null);
+  const move = (e) => {
+    const b = ref.current.getBoundingClientRect();
+    const px = ((e.clientX - b.left) / b.width) * W;
+    const v = Math.round(from + ((px - L) / (W - L - R)) * (to - from));
+    setHover(Math.min(to, Math.max(from, v)));
+  };
+  const key = (e) => {
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    e.preventDefault();
+    setHover((h) => Math.min(to, Math.max(from, (h ?? from) + (e.key === "ArrowRight" ? 1 : -1))));
+  };
+  return [hover, { onPointerMove: move, onPointerDown: move, onPointerLeave: (e) => { if (e.pointerType === "mouse") setHover(null); },
+    tabIndex: 0, onKeyDown: key, onBlur: () => setHover(null) }];
+}
+const tipLeft = (x, W) => (x < W / 2 ? `min(calc(${(x / W) * 100}% + 14px), calc(100% - 210px))` : `max(calc(${(x / W) * 100}% - 224px), 0px)`);
+function breakdown(r) {
+  const inc = [["夜のお仕事・掛け持ち", r.inNight], ["卒業後のお仕事", r.inAfter], ["パートナー", r.inPartner], ["年金", r.inPension]].filter((x) => x[1] > 0);
+  const out = [["生活費", r.outLiving], ["夜のお仕事の経費", r.outWork], ["つい使ってしまうお金", r.outSplurge], ["子育て・教育", r.outKids], ["叶えたいこと", r.outEvent]].filter((x) => x[1] > 0);
+  return { inc, out };
+}
+function Tip({ x, W, r, lines }) {
+  const { inc, out } = breakdown(r);
+  return html`<div class="tip" style=${{ left: tipLeft(x, W) }}>
+    <div class="tip-title"><b>${r.age}歳</b><span>${r.year}年</span></div>
+    ${r.events.length > 0 && html`<div class="tip-ev">${r.events.join("、")}</div>`}
+    <div class="tip-row strong"><span><i style=${{ background: "var(--c-in)" }}></i>収入</span><span>${man(r.income)}万円</span></div>
+    ${inc.map(([k, v]) => html`<div class="tip-row sub" key=${k}><span>${k}</span><span>${man(v)}万円</span></div>`)}
+    <div class="tip-row strong"><span><i style=${{ background: "var(--c-out)" }}></i>支出</span><span>${man(r.spend)}万円</span></div>
+    ${out.map(([k, v]) => html`<div class="tip-row sub" key=${k}><span>${k}</span><span>${man(v)}万円</span></div>`)}
+    <div class="tip-sep"></div>
+    ${lines.map((l) => html`<div class="tip-row strong" key=${l.label}><span><i style=${{ background: l.c }}></i>${l.label}</span><span class=${l.v < 0 ? "tip-neg" : ""}>${man(l.v)}万円</span></div>`)}
+  </div>`;
+}
+const HINT = html`<p class="hint">グラフにカーソルを乗せる(スマホは指でなぞる・タップする)と、その年の内訳が出ます。</p>`;
+function AgeAxis({ d, x, H, B }) {
+  const t = []; for (let g = Math.ceil(d.age / 10) * 10; g <= END_AGE; g += 10) t.push(g);
+  return t.map((g) => html`<text key=${g} x=${x(g)} y=${H - 8} textAnchor="middle" fontSize="11" fill="var(--ink-soft)">${g}歳</text>`);
+}
+function Marks({ d, x, T, H, B }) {
+  return html`<g>
+    ${d.quitAge > d.age && d.quitAge < RETIRE_AGE && html`<g><line x1=${x(d.quitAge)} x2=${x(d.quitAge)} y1=${T} y2=${H - B} stroke="var(--gold-soft)" strokeDasharray="3 3" />
+      <text x=${x(d.quitAge) + 3} y=${T + 9} fontSize="10.5" fill="var(--gold)">卒業</text></g>`}
+    <line x1=${x(RETIRE_AGE)} x2=${x(RETIRE_AGE)} y1=${T} y2=${H - B} stroke="var(--gold-soft)" strokeDasharray="3 3" />
+    <text x=${x(RETIRE_AGE) + 3} y=${T + 9} fontSize="10.5" fill="var(--gold)">年金</text></g>`;
+}
+
+// 年ごとの収入(上)と支出(下)
+function FlowChart({ d, rows }) {
+  const ref = useRef(null);
+  const W = 360, H = 230, L = 46, R = 10, T = 14, B = 26;
+  const maxV = Math.max(...rows.map((r) => Math.max(r.income, r.spend - r.outEvent))) * 1.35;
+  const { lo, hi, ticks } = niceScale(-maxV, maxV, 4);
+  const clampV = (v) => Math.max(lo, Math.min(hi, v));
+  const x = (age) => L + ((age - d.age + 0.5) / (END_AGE - d.age + 1)) * (W - L - R);
+  const y = (v) => T + (1 - (v - lo) / (hi - lo)) * (H - T - B);
+  const bw = Math.max(1.5, ((W - L - R) / (END_AGE - d.age + 1)) - 1.5);
+  const [hover, hv] = useHover(ref, W, L, R, d.age, END_AGE);
+  const hr = hover != null ? rows[hover - d.age] : null;
+  return html`<div class="chart">
+    <svg ref=${ref} viewBox=${`0 0 ${W} ${H}`} role="img" aria-label="年ごとの収入と支出" ...${hv}>
+      ${ticks.map((v) => html`<g key=${v}><line x1=${L} x2=${W - R} y1=${y(v)} y2=${y(v)} stroke=${v === 0 ? "var(--ink-soft)" : "var(--line)"} />
+        <text x=${L - 6} y=${y(v) + 4} textAnchor="end" fontSize="11" fill="var(--ink-soft)">${man(Math.abs(v))}万</text></g>`)}
+      ${rows.map((r) => { const cx = x(r.age) - bw / 2, base = r.spend - r.outEvent; return html`<g key=${r.age} opacity=${hr && hr.age !== r.age ? 0.55 : 1}>
+        <rect x=${cx} y=${y(r.income)} width=${bw} height=${Math.max(0, y(0) - y(r.income))} rx="1" fill="var(--c-in)" />
+        <rect x=${cx} y=${y(0) + 1} width=${bw} height=${Math.max(0, y(-base) - y(0) - 1)} rx="1" fill="var(--c-out)" />
+        ${r.outEvent > 0 && html`<g><rect x=${cx} y=${y(-base) + 1} width=${bw} height=${Math.max(0, y(clampV(-r.spend)) - y(-base) - 1)} rx="1" fill="var(--c-ev)" />
+          ${-r.spend < lo && html`<text x=${x(r.age) + bw / 2 + 3} y=${H - B - 5} textAnchor=${x(r.age) > W - 120 ? "end" : "start"} fontSize="10.5" fontWeight="700" fill="var(--ink)">← ${r.events.join("・")} ${man(r.outEvent)}万円(枠外)</text>`}</g>`}</g>`; })}
+      <${AgeAxis} d=${d} x=${x} H=${H} B=${B} />
+      ${hr && html`<rect x=${x(hover) - bw / 2 - 2} y=${T} width=${bw + 4} height=${H - T - B} fill="none" stroke="var(--ink)" strokeWidth="1" rx="2" />`}
+    </svg>
+    ${hr && html`<${Tip} x=${x(hover)} W=${W} r=${hr} lines=${[{ label: "その年の収支", v: hr.balance, c: "var(--ink-soft)" }, { label: "貯金", v: hr.total, c: "var(--s-now)" }]} />`}
+    <div class="legend">
+      <span><i style=${{ background: "var(--c-in)" }}></i>収入</span>
+      <span><i style=${{ background: "var(--c-out)" }}></i>毎年の支出</span>
+      <span><i style=${{ background: "var(--c-ev)" }}></i>叶えたいことのお金</span>
+    </div>${HINT}
+  </div>`;
+}
+
+// 貯金の推移(比べる線は任意)
+function SavingsChart({ d, rows, cmp, cmpLabel, cmpShort, baseLabel = "いまのプラン" }) {
+  const ref = useRef(null);
+  const W = 360, H = 230, L = 46, R = 10, T = 14, B = 26;
+  const vals = rows.map((r) => r.total).concat(cmp ? cmp.map((r) => r.total) : []);
+  const { lo, hi, ticks } = niceScale(Math.min(0, ...vals), Math.max(0, ...vals), 4);
+  const x = (age) => L + ((age - d.age) / (END_AGE - d.age)) * (W - L - R);
+  const y = (v) => T + (1 - (v - lo) / (hi - lo || 1)) * (H - T - B);
+  const path = (arr) => arr.map((r, i) => `${i ? "L" : "M"}${x(r.age).toFixed(1)},${y(r.total).toFixed(1)}`).join("");
+  const [hover, hv] = useHover(ref, W, L, R, d.age, END_AGE);
+  const hr = hover != null ? rows[hover - d.age] : null, hc = hover != null && cmp ? cmp[hover - d.age] : null;
+  const alerts = [];
+  const neg = rows.find((r) => r.total < 0);
+  if (neg) alerts.push({ age: neg.age, label: "貯金が足りなくなる", onLine: true });
+  const over = rows.find((r) => r.balance < 0 && r.outEvent === 0 && r.age >= d.quitAge);
+  if (over && (!neg || over.age !== neg.age)) alerts.push({ age: over.age, label: "毎年の支出が収入を超える", onLine: false });
+  return html`<div class="chart">
+    <svg ref=${ref} viewBox=${`0 0 ${W} ${H}`} role="img" aria-label="年齢ごとの貯金の推移" ...${hv}>
+      ${y(0) < H - B && html`<rect x=${L} y=${y(0)} width=${W - L - R} height=${H - B - y(0)} fill="var(--bad-soft)" opacity="0.6" />`}
+      ${ticks.map((v) => html`<g key=${v}><line x1=${L} x2=${W - R} y1=${y(v)} y2=${y(v)} stroke=${v === 0 ? "var(--ink-soft)" : "var(--line)"} strokeWidth=${v === 0 ? 1.2 : 1} />
+        <text x=${L - 6} y=${y(v) + 4} textAnchor="end" fontSize="11" fill="var(--ink-soft)">${man(v)}万</text></g>`)}
+      <${AgeAxis} d=${d} x=${x} H=${H} B=${B} />
+      <${Marks} d=${d} x=${x} T=${T} H=${H} B=${B} />
+      ${cmp && html`<path d=${path(cmp)} fill="none" stroke="var(--s-alt)" strokeWidth="2" strokeLinejoin="round" />`}
+      <path d=${path(rows)} fill="none" stroke="var(--s-now)" strokeWidth="2" strokeLinejoin="round" />
+      ${rows.filter((r) => r.events.length).map((r) => html`<circle key=${r.age} cx=${x(r.age)} cy=${y(r.total)} r="4.5" fill="var(--surface)" stroke="var(--s-now)" strokeWidth="2" />`)}
+      ${alerts.map((al) => html`<g key=${al.label}><circle cx=${x(al.age)} cy=${al.onLine ? y(rows[al.age - d.age].total) : H - B} r="7.5" fill="var(--bad)" stroke="var(--surface)" strokeWidth="1.5" />
+        <text x=${x(al.age)} y=${(al.onLine ? y(rows[al.age - d.age].total) : H - B) + 3.5} textAnchor="middle" fontSize="10.5" fontWeight="700" fill="var(--surface)">!</text></g>`)}
+      ${hr && html`<g><line x1=${x(hover)} x2=${x(hover)} y1=${T} y2=${H - B} stroke="var(--ink-soft)" />
+        ${hc && html`<circle cx=${x(hover)} cy=${y(hc.total)} r="4" fill="var(--s-alt)" stroke="var(--surface)" strokeWidth="2" />`}
+        <circle cx=${x(hover)} cy=${y(hr.total)} r="4" fill="var(--s-now)" stroke="var(--surface)" strokeWidth="2" /></g>`}
+    </svg>
+    ${hr && html`<${Tip} x=${x(hover)} W=${W} r=${hr} lines=${[{ label: `貯金(${baseLabel})`, v: hr.total, c: "var(--s-now)" }, ...(hc ? [{ label: `貯金(${cmpShort || cmpLabel})`, v: hc.total, c: "var(--s-alt)" }] : [])]} />`}
+    <div class="legend">
+      <span><i style=${{ background: "var(--s-now)" }}></i>${baseLabel}</span>
+      ${cmp && html`<span><i style=${{ background: "var(--s-alt)" }}></i>${cmpLabel}</span>`}
+      <span>○ 叶えたいこと</span><span><i style=${{ background: "var(--bad-soft)", height: "10px" }}></i>貯金が足りない範囲</span>
+    </div>
+    ${alerts.length > 0 && html`<div class="checkpoints">${alerts.sort((p, q) => p.age - q.age).map((al) => html`<div class="cp" key=${al.label}><span class="bang">!</span><b>${al.age}歳</b>${al.label}</div>`)}</div>`}
+    ${HINT}
+  </div>`;
+}
+
+// 10年ごとの収支
+function decades(d, rows) {
+  const out = [];
+  for (let dec = Math.floor(d.age / 10) * 10; dec <= END_AGE; dec += 10) {
+    const rs = rows.filter((r) => r.age >= dec && r.age < dec + 10);
+    if (rs.length < 3) continue;
+    const inc = rs.reduce((t, r) => t + r.income, 0), sp = rs.reduce((t, r) => t + r.spend, 0);
+    out.push({ dec, inc, sp, bal: inc - sp, from: rs[0].age, to: rs[rs.length - 1].age, events: rs.flatMap((r) => r.events) });
+  }
+  return out;
+}
+function DecadeChart({ d, rows }) {
+  const ds = decades(d, rows);
+  const [sel, setSel] = useState(null);
+  const W = 360, H = 210, L = 46, R = 8, T = 12, B = 26;
+  const { lo, hi, ticks } = niceScale(0, Math.max(...ds.map((x) => Math.max(x.inc, x.sp))), 4);
+  const slot = (W - L - R) / ds.length, bw = Math.min(16, slot / 3);
+  const y = (v) => T + (1 - (v - lo) / (hi - lo || 1)) * (H - T - B);
+  const cur = sel != null ? ds[sel] : null;
+  return html`<div class="chart">
+    <svg viewBox=${`0 0 ${W} ${H}`} role="img" aria-label="10年ごとの収入と支出" onPointerLeave=${(e) => { if (e.pointerType === "mouse") setSel(null); }}>
+      ${ticks.map((v) => html`<g key=${v}><line x1=${L} x2=${W - R} y1=${y(v)} y2=${y(v)} stroke="var(--line)" /><text x=${L - 6} y=${y(v) + 4} textAnchor="end" fontSize="11" fill="var(--ink-soft)">${man(v)}万</text></g>`)}
+      ${ds.map((x, i) => { const cx = L + slot * i + slot / 2; return html`<g key=${x.dec} onPointerEnter=${() => setSel(i)} onPointerDown=${() => setSel(i)} tabIndex="0" onFocus=${() => setSel(i)} style=${{ cursor: "pointer" }}>
+        <rect x=${L + slot * i} y=${T} width=${slot} height=${H - T - B} fill=${sel === i ? "var(--rose-veil)" : "transparent"} />
+        <rect x=${cx - bw - 1} y=${y(x.inc)} width=${bw} height=${y(0) - y(x.inc)} rx="3" fill="var(--c-in)" />
+        <rect x=${cx + 1} y=${y(x.sp)} width=${bw} height=${y(0) - y(x.sp)} rx="3" fill="var(--c-out)" />
+        ${x.bal < 0 && html`<g><circle cx=${cx} cy=${Math.min(y(x.inc), y(x.sp)) - 11} r="7" fill="var(--bad)" /><text x=${cx} y=${Math.min(y(x.inc), y(x.sp)) - 7.5} textAnchor="middle" fontSize="10" fontWeight="700" fill="var(--surface)">!</text></g>`}
+        <text x=${cx} y=${H - 8} textAnchor="middle" fontSize="11" fill="var(--ink-soft)">${x.dec}代</text></g>`; })}
+    </svg>
+    ${cur && html`<div class="tip light" style=${{ left: (sel + 0.5) / ds.length < 0.5 ? `calc(${((sel + 1) / ds.length) * 88 + 8}% )` : "auto", right: (sel + 0.5) / ds.length >= 0.5 ? `calc(${(1 - sel / ds.length) * 88 + 4}%)` : "auto" }}>
+      <div class="tip-title"><b>あなたが${cur.dec}代のとき</b></div>
+      <span class="tip-sub">${cur.from}〜${cur.to}歳${cur.events.length ? ` ・ ${cur.events.join("、")}` : ""}</span>
+      <div class="tip-row strong"><span>収入</span><span class="in">${man(cur.inc)}万円</span></div>
+      <div class="tip-row strong"><span>支出</span><span class="out">${man(cur.sp)}万円</span></div>
+      <div class="tip-sep"></div>
+      <div class="tip-msg">${cur.bal >= 0 ? `${man(cur.bal)}万円の黒字です！` : `${man(-cur.bal)}万円の赤字です`}</div></div>`}
+    <div class="legend"><span><i style=${{ background: "var(--c-in)" }}></i>収入</span><span><i style=${{ background: "var(--c-out)" }}></i>支出</span><span>● ! は赤字の年代</span></div>
+    <p class="hint">棒をタップ(カーソルを乗せる)と、その年代の収支が出ます。</p>
+    <p class="comment">${decadeComment(ds)}</p>
+  </div>`;
+}
+function decadeComment(ds) {
+  const reds = ds.filter((x) => x.bal < 0), blacks = ds.filter((x) => x.bal >= 0);
+  if (!reds.length) return "どの年代も収支は黒字です。貯めたお金の一部を、長く使わない分だけ積立投資にまわすことも考えてみましょう。";
+  const red1 = reds[0];
+  const lastBlack = [...blacks].filter((x) => x.dec < red1.dec).pop();
+  let t = lastBlack ? `${lastBlack.dec}代までは黒字ですが、${red1.dec}代で支出が収入を上回ります。` : `${red1.dec}代から支出が収入を上回ります。`;
+  if (red1.events.length) t += `${red1.dec}代は「${red1.events.join("、")}」でまとまったお金が出ていくためです。`;
+  const old = reds.find((x) => x.dec >= 60);
+  if (old && old !== red1) t += `${old.dec}代以降は年金だけでは足りず、貯金を取り崩す時期に入ります。`;
+  else if (old) t += "年金だけでは生活費が足りず、貯金を取り崩す時期に入ります。";
+  t += "黒字の年代のうちに、赤字の年代の分をどう備えるかを計画しておくことが大切です。";
+  return t;
+}
+function savingsComment(d, a) {
+  if (a.ok) return `${END_AGE}歳まで貯金が足りなくなることはありません。ただ、収入が減ったり支出が増えたりすると変わるので、ときどき見直しましょう。長く使わないお金は、運用して増やすことも考えてみましょう。`;
+  const f = a.firstNeg;
+  let t = `${f.age}歳で貯金がマイナスになります。`;
+  if (f.events.length) t += `「${f.events.join("、")}」のタイミングで、手元のお金が足りなくなる計算です。`;
+  t += `いちばん足りないのは${a.minRow.age}歳の時で、${man(-a.minRow.total)}万円の不足。今から毎月${yen(a.need)}円多く貯めれば、${END_AGE}歳まで足りる計算になります。`;
+  return t;
+}
+
+// ライフイベント:お金のかたまりを円の大きさで
+function Bubbles({ d, rows }) {
+  const W = 360, L = 6, R = 6;
+  const x = (age) => L + ((age - d.age) / (END_AGE - d.age)) * (W - L - R);
+  const sumK = (k, pred = () => true) => rows.filter(pred).reduce((t, r) => t + r[k], 0);
+  const ins = [];
+  const nightV = sumK("inNight");
+  if (nightV > 0) ins.push({ key: "night", label: "夜のお仕事", v: nightV, age: d.age, span: `${d.age}〜${Math.min(d.quitAge, RETIRE_AGE) - 1}歳` });
+  const afterV = sumK("inAfter");
+  if (afterV > 0) ins.push({ key: "after", label: "卒業後のお仕事", v: afterV, age: d.quitAge, span: `${d.quitAge}〜${RETIRE_AGE - 1}歳` });
+  const partV = sumK("inPartner", (r) => r.age < RETIRE_AGE);
+  if (partV > 0) ins.push({ key: "partner", label: "パートナー", v: partV, age: d.age + 1, span: `〜${RETIRE_AGE - 1}歳` });
+  const pen = rows.reduce((t, r) => t + r.inPension + (r.age >= RETIRE_AGE ? r.inPartner : 0), 0);
+  if (pen > 0) ins.push({ key: "pen", label: "年金", v: pen, age: RETIRE_AGE, span: `${RETIRE_AGE}〜${END_AGE}歳` });
+  const outs = activeEvents(d).map((e) => ({ key: e.id, label: e.label, v: e.amount, age: e.age }));
+  const kids = rows.reduce((s, r) => s + r.outKids, 0);
+  if (kids > 0) { const k = rows.find((r) => r.outKids > 0); outs.push({ key: "kids", label: "子育て・教育", v: kids, age: k.age + 8 }); }
+  const old = rows.filter((r) => r.age >= RETIRE_AGE).reduce((s, r) => s + r.outLiving, 0);
+  if (old > 0) outs.push({ key: "old", label: "老後の生活費", v: old, age: (RETIRE_AGE + END_AGE) / 2 });
+  const maxV = Math.max(...ins.map((b) => b.v), ...outs.map((b) => b.v), 1);
+  const packRow = (arr, dir) => {
+    arr.sort((p, q) => p.age - q.age);
+    let k = 52;
+    const slot = (kk, bb) => Math.max(2 * Math.max(10, kk * Math.sqrt(bb.v / maxV)) + 6, 78);
+    const width = (kk) => arr.reduce((sum, bb) => sum + slot(kk, bb), 0);
+    while (width(k) > W - L - R && k > 12) k -= 1;
+    let cur = L + Math.max(0, (W - L - R - width(k)) / 2);
+    return arr.map((bb) => { const r = Math.max(10, k * Math.sqrt(bb.v / maxV)); const w = slot(k, bb); const o = { ...bb, r, cx: cur + w / 2, dir }; cur += w; return o; });
+  };
+  const pi = packRow(ins, -1), po = packRow(outs, 1);
+  const topR = Math.max(10, ...pi.map((b) => b.r)), botR = Math.max(10, ...po.map((b) => b.r));
+  const mid = 2 * topR + 72, H = mid + 2 * botR + 76;
+  const bi = pi.map((b) => ({ ...b, cy: mid - (topR + 22) + (topR - b.r) })), bo = po.map((b) => ({ ...b, cy: mid + b.r + 26 }));
+  const Bub = ({ b, fill }) => {
+    const inside = b.r >= 34, up = b.dir < 0;
+    const ageTxt = b.span || (b.key === "old" ? `${RETIRE_AGE}〜${END_AGE}歳` : b.key === "kids" ? "22年間" : `${b.age}歳`);
+    return html`<g>
+      <circle cx=${b.cx} cy=${b.cy} r=${b.r} fill=${fill} fillOpacity="0.22" stroke=${fill} strokeWidth="1.5" />
+      ${inside
+        ? html`<text x=${b.cx} y=${b.cy - 4} textAnchor="middle" fontSize="10.5" fill="var(--ink)">${b.label}</text>
+            <text x=${b.cx} y=${b.cy + 11} textAnchor="middle" fontSize="12" fontWeight="700" fill="var(--ink)">${man(b.v)}万円</text>
+            ${ageTxt && html`<text x=${b.cx} y=${b.cy + 24} textAnchor="middle" fontSize="9.5" fill="var(--ink-soft)">${ageTxt}</text>`}`
+        : html`<text x=${b.cx} y=${up ? b.cy - b.r - 29 : b.cy + b.r + 12} textAnchor="middle" fontSize="10" fill="var(--ink)">${b.label}</text>
+            <text x=${b.cx} y=${up ? b.cy - b.r - 17 : b.cy + b.r + 24} textAnchor="middle" fontSize="10.5" fontWeight="700" fill="var(--ink)">${man(b.v)}万円</text>
+            <text x=${b.cx} y=${up ? b.cy - b.r - 5 : b.cy + b.r + 36} textAnchor="middle" fontSize="9.5" fill="var(--ink-soft)">${ageTxt}</text>`}</g>`;
+  };
+  const t = []; for (let g = Math.ceil(d.age / 10) * 10; g <= END_AGE; g += 10) t.push(g);
+  return html`<div class="chart"><svg viewBox=${`0 0 ${W} ${H}`} role="img" aria-label="人生のお金のかたまり">
+    <line x1=${L} x2=${W - R} y1=${mid} y2=${mid} stroke="var(--ink-soft)" />
+    <text x=${L} y=${mid - 6} fontSize="10.5" fill="var(--ink-soft)">↑ 入ってくる</text>
+    <text x=${L} y=${mid + 15} fontSize="10.5" fill="var(--ink-soft)">↓ 出ていく</text>
+    ${bi.map((b) => html`<${Bub} key=${b.key} b=${b} fill="var(--c-in)" />`)}
+    ${bo.map((b) => html`<${Bub} key=${b.key} b=${b} fill=${b.key === "old" || b.key === "kids" ? "var(--c-out)" : "var(--c-ev)"} />`)}
+  </svg>
+  <div class="legend"><span><i style=${{ background: "var(--c-in)" }}></i>入ってくるお金</span><span><i style=${{ background: "var(--c-ev)" }}></i>叶えたいこと</span><span><i style=${{ background: "var(--c-out)" }}></i>子育て・老後の生活費</span></div>
+  <p class="note">円の大きさが金額の大きさです。左から年齢の順に並べ、それぞれの時期の合計を出しています。</p></div>`;
+}
+
+// お金の目安(幅と、いまの設定)
+function CostGuide({ d }) {
+  const maxV = Math.max(...EVENTS.map((e) => e.max));
+  return html`<div class="guide">
+    ${EVENTS.map((e) => { const cur = d.events[e.id]?.on ? d.events[e.id].amount : e.amount; return html`<div class="g-row" key=${e.id}>
+      <div class="g-head"><span>${e.label}</span><b>${man(e.min)}〜${man(e.max)}万円</b></div>
+      <div class="g-track"><span class="g-range" style=${{ left: `${(e.min / maxV) * 100}%`, width: `${((e.max - e.min) / maxV) * 100}%` }}></span>
+        <span class="g-dot" style=${{ left: `${(cur / maxV) * 100}%` }} title=${`設定 ${man(cur)}万円`}></span></div>
+      <p class="note">${e.hint}</p></div>`; })}
+    <p class="note"><span class="g-dot inline"></span> がこのシミュレーションで使っている金額です。子育て・教育費は子ども1人あたり大学まで約1,000万円(公立中心の目安、月4万円×22年)で計算しています。</p>
+  </div>`;
+}
+
+// キャッシュフロー表(横に年、縦に項目)
+function CashFlow({ d, rows }) {
+  const R = [
+    { k: "year", label: "西暦", f: (r) => `${r.year}年`, cls: "sub" },
+    { k: "events", label: "できごと", f: (r) => [...r.events, r.age === d.quitAge ? "夜を卒業" : "", r.age === RETIRE_AGE ? "年金スタート" : ""].filter(Boolean).join("、"), cls: "evrow" },
+    { k: "income", label: "収入 合計", f: (r) => man(r.income), cls: "in-total", group: "in" },
+    { k: "inNight", label: "夜のお仕事・掛け持ち", f: (r) => man(r.inNight) },
+    { k: "inAfter", label: "卒業後のお仕事", f: (r) => man(r.inAfter) },
+    ...(hasPartner(d) ? [{ k: "inPartner", label: "パートナー", f: (r) => man(r.inPartner) }] : []),
+    { k: "inPension", label: "年金", f: (r) => man(r.inPension) },
+    { k: "spend", label: "支出 合計", f: (r) => man(r.spend), cls: "out-total", group: "out" },
+    { k: "outLiving", label: "生活費", f: (r) => man(r.outLiving) },
+    { k: "outWork", label: "夜のお仕事の経費", f: (r) => man(r.outWork) },
+    { k: "outSplurge", label: "つい使ってしまうお金", f: (r) => man(r.outSplurge) },
+    { k: "outKids", label: "子育て・教育", f: (r) => man(r.outKids) },
+    { k: "outEvent", label: "叶えたいこと", f: (r) => man(r.outEvent) },
+    { k: "balance", label: "年間の収支", f: (r) => man(r.balance), cls: "bal", neg: (r) => r.balance < 0 },
+    { k: "total", label: "貯金", f: (r) => man(r.total), cls: "tot", neg: (r) => r.total < 0 },
+  ];
+  return html`<div class="table-wrap cf"><table>
+    <thead><tr><th class="stick">年齢</th>${rows.map((r) => html`<th key=${r.age} class=${r.events.length ? "hl" : ""}>${r.age}歳</th>`)}</tr></thead>
+    <tbody>${R.map((row) => html`<tr key=${row.k} class=${row.cls || ""}>
+      <th class="stick" scope="row">${row.label}</th>
+      ${rows.map((r) => html`<td key=${r.age} class=${(row.neg && row.neg(r) ? "neg " : "") + (r.events.length ? "hl" : "")}>${row.f(r)}</td>`)}</tr>`)}</tbody>
+  </table></div>
+  <p class="note">単位は万円。横にスクロールできます。物価の上昇や税・社会保険料の変化は入れていない、ざっくりの目安です。</p>`;
+}
+
+// ---------- 未来を変えてみる ----------
+const INVEST_STEPS = [0, 5000, 10000, 20000, 30000, 50000];
+const WHATIF0 = { invest: 0, years: 20, less: 0, more: 0, quit: 0 };
+function applyWhatIf(d, w) {
+  return {
+    ...d,
+    investMonthly: d.investMonthly + w.invest,
+    investYears: w.invest > 0 ? w.years : d.investYears,
+    rate: w.invest > 0 && !d.rate ? 3 : d.rate,
+    exp: { ...d.exp, splurge: Math.max(0, (d.exp.splurge || 0) - w.less) },
+    nightNet: d.nightNet + w.more,
+    quitAge: Math.min(RETIRE_AGE, Math.max(d.age, d.quitAge + w.quit)),
+  };
+}
+function Slider({ id, label, value, min, max, step, onChange, show, note }) {
+  return html`<div class="sl">
+    <div class="sl-head"><label htmlFor=${id}>${label}</label><b>${show}</b></div>
+    <input id=${id} type="range" min=${min} max=${max} step=${step} value=${value} onInput=${(e) => onChange(Number(e.target.value))} onChange=${(e) => onChange(Number(e.target.value))} />
+    ${note && html`<p class="note">${note}</p>`}
+  </div>`;
+}
+function WhatIf({ d, a, apply }) {
+  const [w, setW] = useState(WHATIF0);
+  const set = (p) => setW((o) => ({ ...o, ...p }));
+  const nd = useMemo(() => applyWhatIf(d, w), [d, w]);
+  const rows = useMemo(() => simulate(nd), [nd]);
+  const s = summarize(rows);
+  const need = useMemo(() => needExtra(nd), [nd]);
+  const changed = JSON.stringify(w) !== JSON.stringify(WHATIF0);
+  const perNom = (d.calc?.back || 2000) * (d.calc?.withhold ? 1 - 0.1021 : 1);
+  const investIdx = Math.max(0, INVEST_STEPS.indexOf(w.invest));
+  const maxYears = Math.max(1, RETIRE_AGE - d.age);
+  const fmtAge = (x) => (x.ok ? `${END_AGE}歳まで足りる` : `${x.firstNeg.age}歳で不足`);
+  const Cmp = ({ label, before, after, better }) => html`<div class="cmp-card">
+    <span class="k">${label}</span>
+    <span class="b">${before}</span>
+    <span class="arrow">→</span>
+    <span class=${"a" + (changed ? (better ? " up" : " same") : "")}>${after}</span></div>`;
+  return html`<section class="panel whatif">
+    <div class="section-head"><p class="eyebrow">Change your future</p><h3>数字を変えて、<em>未来</em>がどう変わるか見てみる</h3></div>
+    <p class="small">動かすと、下のグラフと数字がすぐ変わります。入力した内容はそのままなので、気軽に試してください。</p>
+    <div class="sliders">
+      <${Slider} id="w-invest" label="毎月の積立投資を増やす" value=${investIdx} min=${0} max=${INVEST_STEPS.length - 1} step=${1}
+        show=${w.invest ? `+${yen(w.invest)}円/月` : "なし"} onChange=${(i) => set({ invest: INVEST_STEPS[i] })} />
+      ${w.invest > 0 && html`<${Slider} id="w-years" label="積立する期間" value=${Math.min(w.years, maxYears)} min=${1} max=${maxYears} step=${1}
+        show=${`${Math.min(w.years, maxYears)}年(${d.age + Math.min(w.years, maxYears)}歳まで)`} onChange=${(v) => set({ years: v })}
+        note=${`年${nd.rate}%で増えると仮定。投資は元本保証がなく、減ることもあります。`} />`}
+      <${Slider} id="w-less" label="「つい使うお金」を減らす" value=${w.less} min=${0} max=${Math.max(10000, d.exp.splurge || 0)} step=${5000}
+        show=${w.less ? `−${yen(w.less)}円/月` : "そのまま"} onChange=${(v) => set({ less: v })} />
+      <${Slider} id="w-more" label="夜の手取りを増やす" value=${w.more} min=${0} max=${150000} step=${10000}
+        show=${w.more ? `+${yen(w.more)}円/月` : "そのまま"} onChange=${(v) => set({ more: v })}
+        note=${w.more ? `本指名なら月あと約${Math.ceil(w.more / perNom)}本分(指名バック${yen(d.calc?.back || 2000)}円で計算)` : ""} />
+      <${Slider} id="w-quit" label="夜を卒業する年齢" value=${w.quit} min=${-5} max=${5} step=${1}
+        show=${`${nd.quitAge}歳${w.quit ? `(${w.quit > 0 ? "+" : ""}${w.quit}年)` : ""}`} onChange=${(v) => set({ quit: v })} />
+    </div>
+    <div class="cmp-grid">
+      <${Cmp} label="お金の見通し" before=${fmtAge(a)} after=${fmtAge(s)} better=${(s.ok && !a.ok) || (s.firstNeg && a.firstNeg && s.firstNeg.age > a.firstNeg.age)} />
+      <${Cmp} label="90歳の時の貯金" before=${`${man(a.last.total)}万円`} after=${`${man(s.last.total)}万円`} better=${s.last.total > a.last.total} />
+      <${Cmp} label="毎月あと貯めたい額" before=${`${yen(a.need)}円`} after=${`${yen(need)}円`} better=${need < a.need} />
+    </div>
+    <${SavingsChart} d=${d} rows=${a.rows} cmp=${rows} cmpLabel="数字を変えたあと" cmpShort="変えたあと" />
+    <p class="comment">${changed
+      ? s.last.total > a.last.total
+        ? `この変更で、90歳の時の貯金が${man(s.last.total - a.last.total)}万円${s.last.total >= a.last.total ? "増えます" : ""}。${!a.ok && s.ok ? "90歳までお金が足りる計算になりました。" : !s.ok ? `それでも${s.firstNeg.age}歳で不足するので、ほかの数字も組み合わせてみましょう。` : ""}`
+        : `この変更だと、90歳の時の貯金は${man(a.last.total - s.last.total)}万円減ります。`
+      : "将来の貯金がマイナスになっても、今から手を打てば未来は変えられます。上の数字を動かしてみてください。"}</p>
+    <div class="chips">
+      <button type="button" class="chip" onClick=${() => setW(WHATIF0)} disabled=${!changed}>元に戻す</button>
+      <button type="button" class="chip" aria-pressed="true" onClick=${() => { apply(nd); setW(WHATIF0); }} disabled=${!changed}>この内容をプランに反映する</button>
+    </div>
+  </section>`;
+}
+
+// ---------- 診断の条件とアドバイス ----------
+function Conditions({ d }) {
+  const fam = (FAMILY.find((f) => f.id === d.family) || {}).label;
+  const after = (AFTER.find((f) => f.id === d.after) || {}).label;
+  const items = [
+    ["年齢", `${d.age}歳`], ["暮らし", fam], ["夜の手取り", `月${man(d.nightNet)}万円(${d.quitAge}歳まで)`],
+    ["卒業後", `${after}・月${man(d.afterNet)}万円`], ["毎月の支出", `${man(EXPENSES.reduce((t, e) => t + (d.exp[e.id] || 0), 0))}万円`],
+    ["いまの貯金", `${man(d.savings + d.invested)}万円`], ["叶えたいこと", activeEvents(d).map((e) => e.label).join("、") || "なし"],
+    ["年金の見込み", `月${man(d.pension)}万円`],
+  ];
+  return html`<dl class="conds">${items.map(([k, v]) => html`<div key=${k}><dt>${k}</dt><dd>${v}</dd></div>`)}</dl>`;
+}
+function adviceParas(d, a) {
+  const P = [];
+  if (!hasPartner(d)) P.push("ひとりの場合、自由に使えるお金が多いぶん、家計が見えにくくなりがちです。老後はひとり分の年金しかなく、介護が必要になった時に家族を頼れないこともあるので、その分の備えも考えておきましょう。家族が増えたり、暮らし方が変わった時は、そのたびに見直しましょう。");
+  else P.push("パートナーと暮らす場合、2人の収入と支出をまとめて考えることが大切です。どちらかの収入が減った時にも回るかどうか、一度話し合っておきましょう。");
+  if ((d.exp.rent || 0) > 0 && !d.events.house?.on) P.push("賃貸で暮らし続ける場合、家賃の支払いは老後も続きます。老後の生活費に家賃が入っているか確認し、その分も見越して貯めておきましょう。");
+  P.push("夜のお仕事は、お店と業務委託で契約している人が多く、その場合は個人事業主として国民年金だけになり、退職金もありません。会社員より老後のお金を自分で準備する必要があります。まずは「ねんきん定期便」などで自分の年金額を確かめ、そのうえで積立投資(NISA・iDeCo)なども考えてみましょう。");
+  if (d.quitAge < RETIRE_AGE) P.push(`夜を卒業すると、収入と一緒に美容・ドレス・タクシーなどの経費も減ります。卒業前の1年は、卒業後の手取り(月${man(d.afterNet)}万円)で暮らす練習をしておくと、落差に慌てずにすみます。`);
+  P.push("将来の安心のためには、計画的にお金を育てることが欠かせません。積立投資は毎月少しずつから始められ、長く続けるほど値動きのリスクをならしやすくなります。まずは無理のない金額から始めることを考えてみましょう。");
+  return P;
+}
+
+// ---------- いちばん上の「今月の目標」 ----------
+function fvMonthly(m, years, rate) { const i = rate / 12; let v = 0; for (let k = 0; k < years * 12; k++) v = v * (1 + i) + m; return v; }
+function heroNumbers(d, a) {
+  const have = d.savings + d.invested;
+  const left = Math.max(0, Math.round(a.dx.monthlyLeft));
+  const shifts = Math.max(1, d.calc?.days || 16);
+  const goal = activeEvents(d).filter((e) => e.age > d.age || (e.age === d.age && e.amount > have)).sort((x, y) => x.age - y.age)[0];
+  let target, basis;
+  if (goal) {
+    const months = Math.max(1, (goal.age - d.age) * 12);
+    const rest = Math.max(0, goal.amount - have);
+    target = rest / months;
+    basis = { type: "goal", goal, months, rest, pct: goal.amount > 0 ? Math.min(1, have / goal.amount) : 1 };
+  } else {
+    target = left + a.need;
+    basis = { type: "life" };
+  }
+  target = Math.ceil(target / 100) * 100;
+  const first = Math.min(target, Math.ceil((left + (d.exp.splurge || 0) / 2) / 100) * 100);
+  const living = sumExp(d, (e) => !e.work);
+  const safety = living * 6;
+  const invest = { m: 10000, years: 20, rate: 0.03 };
+  invest.total = fvMonthly(invest.m, invest.years, invest.rate);
+  invest.principal = invest.m * 12 * invest.years;
+  return { target, perShift: target / shifts, shifts, left, first, basis, safety, have, invest, onTrack: left >= target };
+}
+const ym2 = (m) => { const y = Math.floor(m / 12), r = m % 12; return `${y ? y + "年" : ""}${r ? r + "か月" : ""}` || "0か月"; };
+
+function Hero({ d, a }) {
+  const h = heroNumbers(d, a);
+  const g = h.basis.goal;
+  return html`<section class="hero-card">
+    <p class="eyebrow">This month</p>
+    <p class="hero-lead">${d.name ? `${d.name}さんが` : "あなたが"}今月貯めたいお金</p>
+    <p class="hero-num"><b>${yen(h.target)}</b><span>円</span></p>
+    <p class="hero-sub">出勤1回あたり <b>約${yen(Math.ceil(h.perShift / 100) * 100)}円</b> をよけておく(月${h.shifts}日出勤の場合)</p>
+    ${h.onTrack
+      ? html`<p class="hero-note ok">今は毎月${yen(h.left)}円残せているので、このペースで大丈夫です。</p>`
+      : html`<div class="steps2">
+          <div><span class="lbl">まずはここから</span><b>${yen(h.first)}円</b><small>いま残せている${yen(h.left)}円 +「つい使うお金」を半分に</small></div>
+          <div><span class="lbl">目指したいのは</span><b>${yen(h.target)}円</b><small>${g ? `${g.age}歳の${g.label}に間に合う金額` : `${END_AGE}歳までお金が足りる金額`}</small></div>
+        </div>`}
+    <div class="hero-grid">
+      ${g ? html`<div class="hg">
+        <span class="lbl">目の前のゴール</span>
+        <p class="hg-main">${g.age}歳の「${g.label}」まで <b>あと${man(h.basis.rest)}万円</b></p>
+        <div class="pbar" role="img" aria-label=${`${Math.round(h.basis.pct * 100)}%たまっている`}><i style=${{ width: `${h.basis.pct * 100}%` }}></i></div>
+        <p class="hg-foot"><span>いま ${man(h.have)}万円 / ${man(g.amount)}万円(${Math.round(h.basis.pct * 100)}%)</span><span>残り${ym2(h.basis.months)}</span></p>
+      </div>` : html`<div class="hg"><span class="lbl">目の前のゴール</span><p class="hg-main">叶えたいことを選ぶと、ここにゴールまでの進み具合が出ます。</p></div>`}
+      <div class="hg">
+        <span class="lbl">最低限あると安心な貯金</span>
+        <p class="hg-main">生活費6か月分 <b>${man(h.safety)}万円</b></p>
+        <p class=${"hg-foot " + (h.have >= h.safety ? "ok" : "ng")}>${h.have >= h.safety ? `いまの貯金${man(h.have)}万円でクリアしています` : `いまの貯金${man(h.have)}万円。あと${man(h.safety - h.have)}万円`}</p>
+      </div>
+      <div class="hg">
+        <span class="lbl">もし投資したら</span>
+        <p class="hg-main">月${man(h.invest.m)}万円を${h.invest.years}年つみ立てると <b>約${man(h.invest.total)}万円</b></p>
+        <p class="hg-foot"><span>入れたお金は${man(h.invest.principal)}万円。年3%で増えると仮定した例で、減ることもあります</span></p>
+      </div>
+    </div>
+  </section>`;
+}
+
+// ---------- 結果画面 ----------
+const TABS = [
+  { id: "plan", label: "ライフプラン" },
+  { id: "events", label: "ライフイベント" },
+  { id: "whatif", label: "もしも比較" },
+  { id: "cf", label: "キャッシュフロー表" },
+];
+function Meter({ m }) {
+  const ratio = m.goal > 0 ? m.value / m.goal : 0;
+  const pct = Math.max(0, Math.min(1, ratio));
+  const ok = ratio >= 1;
+  const R = 30, C = 2 * Math.PI * R;
+  return html`<div class="ring">
+    <svg viewBox="0 0 80 80" role="img" aria-label=${`${m.label} ${Math.round(ratio * 100)}%`}>
+      <circle cx="40" cy="40" r=${R} fill="none" stroke="var(--line)" strokeWidth="8" />
+      <circle cx="40" cy="40" r=${R} fill="none" stroke=${ok ? "var(--good)" : "var(--rose-deep)"} strokeWidth="8" strokeLinecap="round"
+        strokeDasharray=${`${C * pct} ${C}`} transform="rotate(-90 40 40)" />
+      <text x="40" y="45" textAnchor="middle" fontSize="16" fontWeight="700" fill="var(--ink)">${Math.min(999, Math.round(ratio * 100))}%</text>
+    </svg>
+    <b>${m.label}</b>
+    <span class=${"m-state " + (ok ? "ok" : "ng")}>${ok ? "目安クリア" : "あと少し"}</span>
+    <span class="m-foot">${m.show}(${m.goalText})</span>
+  </div>`;
+}
+
+// 家族のライフステージ(横に年齢、人ごとに帯)
+function Stages({ d, rows }) {
+  const W = 360, L = 58, R = 8, rowH = 30;
+  const x = (age) => L + ((age - d.age) / (END_AGE + 1 - d.age)) * (W - L - R);
+  const lanes = [];
+  const me = [];
+  if (d.quitAge > d.age) me.push({ from: d.age, to: Math.min(d.quitAge, RETIRE_AGE), label: "夜のお仕事", c: "var(--rose-deep)" });
+  if (d.quitAge < RETIRE_AGE) me.push({ from: Math.max(d.age, d.quitAge), to: RETIRE_AGE, label: (AFTER.find((a) => a.id === d.after) || {}).label?.replace(/\(.*\)/, "") || "卒業後", c: "var(--rose)" });
+  me.push({ from: Math.max(d.age, RETIRE_AGE), to: END_AGE + 1, label: "年金ぐらし", c: "var(--gold)" });
+  lanes.push({ name: d.name || "わたし", segs: me, marks: activeEvents(d).map((e) => ({ age: e.age, label: e.label })) });
+  const SCHOOL = [[0, 3, "保育"], [3, 6, "幼稚園"], [6, 12, "小学校"], [12, 15, "中学"], [15, 18, "高校"], [18, 22, "大学"]];
+  const kid = (startAge, name) => ({ name, segs: SCHOOL.map(([f, t, l], i) => ({ from: startAge + f, to: startAge + t, label: l, c: i % 2 ? "var(--c-in)" : "var(--rose-mist)", light: !(i % 2) })).filter((s) => s.to > d.age && s.from <= END_AGE) });
+  if (hasKids(d) && d.kids > 0) lanes.push(kid(d.age - d.kidAge, "子ども"));
+  const baby = activeEvents(d).find((e) => e.id === "baby");
+  if (baby) lanes.push(kid(baby.age, hasKids(d) ? "次の子" : "子ども"));
+  const H = lanes.length * rowH + 24;
+  const t = []; for (let g = Math.ceil(d.age / 10) * 10; g <= END_AGE; g += 10) t.push(g);
+  return html`<div class="chart"><svg viewBox=${`0 0 ${W} ${H}`} role="img" aria-label="家族のライフステージ">
+    ${t.map((g) => html`<g key=${g}><line x1=${x(g)} x2=${x(g)} y1="4" y2=${H - 18} stroke="var(--line)" /><text x=${x(g)} y=${H - 5} textAnchor="middle" fontSize="10.5" fill="var(--ink-soft)">${g}歳</text></g>`)}
+    ${lanes.map((ln, i) => { const y0 = 6 + i * rowH; return html`<g key=${i}>
+      <text x="0" y=${y0 + 15} fontSize="11" fontWeight="700" fill="var(--ink)">${ln.name}</text>
+      ${ln.segs.map((sg, j) => { const x0 = x(Math.max(sg.from, d.age)), x1 = x(Math.min(sg.to, END_AGE + 1)); const w = Math.max(0, x1 - x0 - 1.5); return html`<g key=${j}>
+        <rect x=${x0} y=${y0 + 2} width=${w} height="18" rx="4" fill=${sg.c} opacity=${sg.light ? 1 : 0.9} />
+        ${w > 26 && html`<text x=${x0 + w / 2} y=${y0 + 15} textAnchor="middle" fontSize="9.5" fill=${sg.light ? "var(--ink)" : "var(--on-rose)"}>${sg.label}</text>`}</g>`; })}
+      ${(ln.marks || []).map((mk) => html`<g key=${mk.label}><path d=${`M${x(mk.age)},${y0 + 21} l-4,6 h8 z`} fill="var(--ink)" /></g>`)}
+    </g>`; })}
+  </svg>
+  <p class="note">${lanes[0].name}:${me.map((sg) => `${sg.label}(${Math.max(sg.from, d.age)}〜${Math.min(sg.to, END_AGE + 1) - 1}歳)`).join(" → ")}</p>
+  <p class="note">▲ は叶えたいことの時期。${lanes.length > 1 ? "子どもの帯は、保育・幼稚園・小学校・中学・高校・大学の時期です。" : ""}</p></div>`;
+}
+
+function Result({ d, a, goQ, apply }) {
+  const [tab, setTab] = useState("plan");
+  const [scId, setScId] = useState("baby");
+  const who = d.name ? `${d.name}さん` : "あなた";
+  const f = a.firstNeg;
+  const drop = d.nightNet + d.sideNet - d.afterNet - a.workExp;
+  const oldGap = d.retireLiving - d.pension - (hasPartner(d) ? d.partnerPension : 0);
+  const splurgeGain = a.alt65.total - a.at65.total;
+  const sc = a.sc.find((x) => x.id === scId);
+  return html`
+    <div class="progress"><div class="meta"><span>シミュレーション結果</span><b>Result</b></div><div class="bar"><i style=${{ width: "100%" }}></i></div></div>
+    <${Hero} d=${d} a=${a} />
+    <section class="report">
+      <p class="eyebrow">${who}のライフプラン診断</p>
+      ${a.ok
+        ? html`<p class="verdict">${END_AGE}歳まで、<em>お金は足りる</em>見込みです。</p><span class="pill ok">プラン通りでOK</span>`
+        : html`<p class="verdict"><em>${f.age}歳</em>で、貯金が足りなくなる見込みです。</p><span class="pill ng">いちばん足りない時 ${man(-a.minRow.total)}万円不足(${a.minRow.age}歳)</span>`}
+      <div class="stats">
+        <div><b>${man(a.householdYear)}<small>万</small></b><span>いまの世帯の<br />手取り年収</span></div>
+        <div><b>${man(a.at65.total)}<small>万</small></b><span>65歳の時の<br />貯金</span></div>
+        <div><b>${man(a.last.total)}<small>万</small></b><span>90歳の時の<br />貯金</span></div>
+      </div>
+      ${!a.ok && html`<div class="need"><p>${END_AGE}歳まで足りるようにするには</p>
+        <p>今から毎月あと <b>${yen(a.need)}</b> 円 多く貯める</p></div>`}
+    </section>
+
+    <section class="panel type">
+      <p class="eyebrow">Your type</p>
+      <h3 class="type-name">${a.dx.type.name}</h3>
+      <p class="small">${a.dx.type.text}</p>
+      <div class="rings">${a.dx.meters.map((m) => html`<${Meter} key=${m.id} m=${m} />`)}</div>
+    </section>
+
+    <div class="tabs" role="tablist">
+      ${TABS.map((t) => html`<button key=${t.id} role="tab" type="button" aria-selected=${tab === t.id} class="tab" onClick=${() => setTab(t.id)}>${t.label}</button>`)}
+    </div>
+
+    ${tab === "plan" && html`
+      <section class="panel"><div class="section-head"><p class="eyebrow">Life stage</p><h3>これからのライフステージ</h3></div>
+        <${Stages} d=${d} rows=${a.rows} /></section>
+      <section class="panel"><div class="section-head"><p class="eyebrow">Income & Expense</p><h3>年ごとの収入と支出</h3></div>
+        <${FlowChart} d=${d} rows=${a.rows} /></section>
+      <section class="panel"><div class="section-head"><p class="eyebrow">Savings</p><h3>貯金の推移</h3></div>
+        <${SavingsChart} d=${d} rows=${a.rows} cmp=${a.alt} cmpLabel="「つい使うお金」を半分にしたら" cmpShort="半分にしたら" />
+        <p class="comment">${savingsComment(d, a)}</p></section>
+      <section class="panel"><div class="section-head"><p class="eyebrow">Every 10 years</p><h3>10年ごとの<em>収支</em>をチェック</h3></div>
+        <${DecadeChart} d=${d} rows=${a.rows} /></section>`}
+
+    ${tab === "events" && html`
+      <section class="panel"><div class="section-head"><p class="eyebrow">Life events</p><h3>人生のお金のかたまり</h3></div>
+        <${Bubbles} d=${d} rows=${a.rows} /></section>
+      <section class="panel"><div class="section-head"><p class="eyebrow">Price guide</p><h3>叶えたいことの、お金の目安</h3></div>
+        <${CostGuide} d=${d} />
+        <button type="button" class="linkbtn" onClick=${() => goQ(6)}>叶えたいことを選び直す</button></section>`}
+
+    ${tab === "whatif" && html`
+      <section class="panel"><div class="section-head"><p class="eyebrow">What if</p><h3>もしも、こうなったら？</h3></div>
+        <p class="small">いまのプランに1つだけ足して比べます。タップすると下のグラフが切り替わります。</p>
+        <div class="sc-grid">${a.sc.map((x) => html`<button type="button" key=${x.id} class="sc" aria-pressed=${scId === x.id} onClick=${() => setScId(x.id)}>
+          <span class="sc-label">${x.label}</span>
+          <span class=${"sc-state " + (x.s.ok ? "ok" : "ng")}>${x.s.ok ? "90歳まで足りる" : `${x.s.firstNeg.age}歳で足りなくなる`}</span>
+          <span class="sc-need">${x.need > 0 ? html`毎月あと<b>${yen(x.need)}</b>円` : html`<b>追加なし</b>でOK`}</span></button>`)}</div>
+        <p class="note">${sc.desc}</p>
+        <${SavingsChart} d=${d} rows=${a.rows} cmp=${sc.rows} cmpLabel=${sc.label} />
+        <div class="table-wrap"><table class="cmp">
+          <thead><tr><th></th><th>65歳の貯金</th><th>90歳の貯金</th><th>毎月あと</th></tr></thead>
+          <tbody>
+            <tr><td>いまのプラン</td><td>${man(a.at65.total)}万</td><td class=${a.last.total < 0 ? "neg" : ""}>${man(a.last.total)}万</td><td>${yen(a.need)}円</td></tr>
+            ${a.sc.map((x) => html`<tr key=${x.id} class=${x.id === scId ? "mark" : ""}><td>${x.label}</td><td>${man(x.s.at65.total)}万</td><td class=${x.s.last.total < 0 ? "neg" : ""}>${man(x.s.last.total)}万</td><td>${yen(x.need)}円</td></tr>`)}
+          </tbody></table></div>
+      </section>`}
+
+    ${tab === "cf" && html`<section class="panel"><div class="section-head"><p class="eyebrow">Cash flow</p><h3>キャッシュフロー表</h3></div>
+      <${CashFlow} d=${d} rows=${a.rows} /></section>`}
+
+    <${WhatIf} d=${d} a=${a} apply=${apply} />
+
+    <section class="panel">
+      <div class="section-head"><p class="eyebrow">Your conditions</p><h3>診断した条件</h3></div>
+      <${Conditions} d=${d} />
+      <div class="advice">${adviceParas(d, a).map((t, i) => html`<p key=${i}>${t}</p>`)}</div>
+      <div class="notebox"><p>この試算では、将来の物価の上がり下がりを入れていません。収入が増える以上に物価が上がると家計は苦しくなるので、インフレへの備えとして資産運用も考えておきましょう。</p></div>
+    </section>
+
+    ${(d.exp.splurge > 0 || (drop > 0 && d.quitAge < RETIRE_AGE)) && html`<section class="section-head"><p class="eyebrow">Advice</p><h3>みずきからのひとこと</h3></section>`}
+    ${d.exp.splurge > 0 && html`<${Say}>「つい使ってしまうお金」は月<strong>${yen(d.exp.splurge)}円</strong>。これを半分にするだけで、65歳の貯金が<strong>${man(splurgeGain)}万円</strong>変わるで。我慢より、使う前に「これ、明日の私もほしい？」って1回だけ聞いてみてな。<//>`}
+    ${drop > 0 && d.quitAge < RETIRE_AGE && html`<${Say}>${d.quitAge}歳で卒業すると、自由に使えるお金が月<strong>${yen(drop)}円</strong>くらい減る計算。卒業の1年前から、卒業後の手取りで暮らす練習をしとくと安心やで。<//>`}
+
+    ${d.why && html`<section class="panel"><p class="eyebrow">Why</p><p class="goal-quote">${d.why}</p></section>`}
+
+    <section class="panel">
+      <h3>入力を見直す</h3>
+      <div class="chips">${QUESTIONS.map((q, i) => html`<button type="button" key=${q} class="chip" onClick=${() => goQ(i + 1)}>${i + 1}. ${q}</button>`)}</div>
+    </section>
+    <footer>結果は入力した数字と一般的な目安をもとにした概算で、将来を約束するものではありません。入力した内容は、この端末の中だけに保存されます。</footer>`;
+}
+
+// ---------- アプリ ----------
+function App() {
+  const init = useMemo(loadState, []);
+  const [d, setD] = useState(init.d);
+  const [screen, setScreen] = useState(init.screen); // 0:はじめに 1-7:質問 8:結果
+  const [confirm, setConfirm] = useState(false);
+  const top = useRef(null);
+  const set = (p) => setD((prev) => { const n = { ...prev, ...p }; saveState(n, screen); return n; });
+  const go = (s) => { setScreen(s); saveState(d, s); setConfirm(false); window.scrollTo({ top: 0 }); };
+  const a = useMemo(() => (screen === 8 ? analyze(d) : null), [d, screen]);
+  const Q = screen >= 1 && screen <= 7 ? QS[screen - 1] : null;
+  const reset = (blank) => {
+    const next = blank ? { ...SAMPLE, name: "", why: "", savings: 0, sideNet: 0, events: {}, exp: Object.fromEntries(EXPENSES.map((e) => [e.id, 0])), nightNet: 0 } : SAMPLE;
+    setD(next); setScreen(blank ? 1 : 0); saveState(next, blank ? 1 : 0); setConfirm(false); window.scrollTo({ top: 0 });
+  };
+
+  return html`<div class="frame" ref=${top}>
+    <header class="topbar">
+      <div class="wordmark">Mizuki<span>'s</span> Life Plan</div>
+      ${screen > 0 && html`<button class="head-btn" type="button" onClick=${() => go(0)}>はじめに</button>`}
+    </header>
+    <main>
+      ${screen === 0 && html`
+        <section class="hero">
+          <div><p class="eyebrow">life plan simulator</p>
+            <h1>これからのお金、<br /><em>いっしょに</em>見える化しよ。</h1>
+            <p class="lead">7つの質問に答えると、90歳までの貯金の流れと、今から毎月いくら貯めればいいかが分かります。</p></div>
+          <div class="portrait" role="img" aria-label="みずき"></div>
+        </section>
+        <${Say}>最初は<strong>あいさん(24歳)の入力例</strong>が入ってるで。まず結果を見てみて、それから自分の数字に書きかえてな。<//>
+        <div class="menu-list">
+          ${QUESTIONS.map((q, i) => html`<div class="item" key=${q}><b>${i + 1}</b><div>${q}</div></div>`)}
+        </div>
+        <div class="btn-col">
+          <button class="btn" type="button" onClick=${() => go(1)}>質問に答える</button>
+          <button class="btn ghost" type="button" onClick=${() => go(8)}>入力例の結果を見る</button>
+        </div>
+        ${confirm
+          ? html`<div class="panel"><p class="note">入力した内容をすべて消します。</p><div class="chips">
+              <button class="chip" type="button" onClick=${() => reset(true)}>白紙から始める</button>
+              <button class="chip" type="button" onClick=${() => reset(false)}>入力例に戻す</button>
+              <button class="chip" type="button" onClick=${() => setConfirm(false)}>やめる</button></div></div>`
+          : html`<button class="linkbtn" type="button" onClick=${() => setConfirm(true)}>入力をリセットする</button>`}
+        <footer>入力した内容は、この端末の中だけに保存されます。</footer>`}
+
+      ${Q && html`
+        <div class="progress"><div class="meta"><span>質問 ${screen} / ${QS.length}</span><b>Q${screen}</b></div>
+          <div class="bar"><i style=${{ width: `${(screen / QS.length) * 100}%` }}></i></div></div>
+        <h2>${QUESTIONS[screen - 1]}</h2>
+        <${Q} d=${d} set=${set} />`}
+
+      ${screen === 8 && a && html`<${Result} d=${d} a=${a} goQ=${go} apply=${(nd) => { set(nd); window.scrollTo({ top: 0, behavior: "smooth" }); }} />`}
+    </main>
+    ${Q && html`<nav class="navbar">
+      <button class="btn ghost" type="button" onClick=${() => go(screen - 1)}>戻る</button>
+      <button class="btn" type="button" onClick=${() => go(screen + 1)}>${screen === QS.length ? "結果を見る" : "次へ"}</button>
+    </nav>`}
+  </div>`;
+}
+
+ReactDOM.createRoot(document.getElementById("app")).render(html`<${App} />`);
+</script>

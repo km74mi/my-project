@@ -28,7 +28,9 @@
       "Bash(pip install -r requirements.txt)",
       "Bash(pip list:*)",
       "Bash(python -m py_compile:*)",
-      "Bash(python ocr_scan.py --help)"
+      "Bash(python ocr_scan.py --help)",
+      "Bash(python lifeplan-app/build.py:*)",
+      "Bash(node lifeplan-app/scripts/check.js:*)"
     ]
   }
 }
