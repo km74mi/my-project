@@ -433,7 +433,7 @@ def map_time(t: float, keep: list[list[float]]) -> float | None:
 
 def _fit(text: str, size: int, width: int) -> str:
     """Shrink the font so one line fits inside the frame (full-width chars ~ 1em)."""
-    units = sum(1.0 if ord(c) > 0xFF else 0.55 for c in text)
+    units = max(sum(1.0 if ord(c) > 0xFF else 0.55 for c in line) for line in text.split("\n"))
     fit = int((width - 120) / max(units, 1))
     return f"{{\\fs{fit}}}" if fit < size else ""
 
@@ -441,6 +441,7 @@ def _fit(text: str, size: int, width: int) -> str:
 def build_ass(plan: dict, kata: dict, font: str) -> str:
     out, tl, hk = plan["output"], kata["telop"], kata["hook"]
     hook_align = {"top": 8, "middle": 5, "bottom": 2}.get(hk.get("position", "top"), 8)
+    telop_align = {"top": 8, "middle": 5}.get(tl.get("position"), 2)  # bottom_third etc. -> bottom
     bold = -1 if tl.get("bold", True) else 0
     head = [
         "[Script Info]", "ScriptType: v4.00+", f"PlayResX: {out['width']}", f"PlayResY: {out['height']}",
@@ -450,7 +451,7 @@ def build_ass(plan: dict, kata: dict, font: str) -> str:
         "Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, "
         "MarginL, MarginR, MarginV, Encoding",
         f"Style: Telop,{font},{tl['font_size']},{_ass_color(tl['color'])},&H000000FF,{_ass_color(tl['outline_color'])},"
-        f"&H64000000,{bold},0,0,0,100,100,0,0,1,{tl['outline']},2,2,60,60,{tl['margin_v']},1",
+        f"&H64000000,{bold},0,0,0,100,100,0,0,1,{tl['outline']},2,{telop_align},60,60,{tl['margin_v']},1",
         f"Style: Hook,{font},{hk['font_size']},{_ass_color(hk['color'])},&H000000FF,{_ass_color(tl['outline_color'])},"
         f"&H64000000,-1,0,0,0,100,100,0,0,1,{tl['outline'] + 2},3,{hook_align},60,60,{hk['margin_v']},1",
         "", "[Events]", "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",

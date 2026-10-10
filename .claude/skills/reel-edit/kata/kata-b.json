@@ -1,0 +1,16 @@
+{
+  "name": "型B",
+  "status": "確定(参考例1本のテロップ表から。2026-10-10)",
+  "source": "他の人のストーリー型リール(テロップのみ・顔なし)。文言はまねず、テンポと構成だけ使う",
+  "style": "テロップだけで語るストーリー型。音源に合わせて短い一言をどんどん切り替える。速くて一度では読み切れないぶん、もう一度見てもらう前提",
+  "structure": ["冒頭2秒: 『◯◯が△△した結果…』型の結果予告", "苦労・葛藤を短文で連打", "転機『でも』『だから』", "結果(数字)", "まとめ『全てを◯◯にまとめました』", "『知りたい人は』→『コメント欄に』→『キーワード』単独→『ってコメントしてね』", "最後の約4秒はアカウント案内。『ってコメントしてね』を背景に残す"],
+  "tempo": {"avg_card_sec": 0.93, "min_card_sec": 0.5, "max_card_sec": 2.0, "hook_sec": 2.0, "cards_per_25s": 27, "chars_per_card": 12, "chars_per_sec": 13, "max_gap_sec": 0.0, "pad_sec": 0.0, "remove_fillers": false},
+  "telop": {"font": "Noto Sans CJK JP", "font_size": 84, "color": "#FFFFFF", "outline_color": "#000000", "outline": 7, "bold": true, "max_chars": 13, "position": "middle", "margin_v": 0},
+  "motion": {"punch_in": false, "zoom": 1.0, "every_n_cuts": 2},
+  "sound": {"bgm_volume": 1.0, "voice_volume": 0.0, "se_at_breaks": false, "note": "流行りの音源のみ。アフレコなし"},
+  "hook": {"enabled": true, "duration_sec": 2.0, "font_size": 96, "color": "#FFFFFF", "position": "middle", "margin_v": 0},
+  "cta": {"keyword_card_sec": 0.5, "end_hold_sec": 4.0, "note": "コメント部分に特典の補足を小さく重ねる"},
+  "output": {"width": 1080, "height": 1920, "fps": 30},
+  "unknown": ["テロップの色・大きさ・位置(表からは分からない。動画があれば analyze で確認)", "映像の切り替え", "音源の種類"],
+  "notes": []
+}
