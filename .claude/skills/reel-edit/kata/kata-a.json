@@ -1,0 +1,46 @@
+{
+  "name": "型A",
+  "status": "仮(参考例をまだ分析していない。勉強会スライドの例の数字)",
+  "source": "",
+  "tempo": {
+    "avg_cut_sec": 1.5,
+    "max_gap_sec": 0.3,
+    "pad_sec": 0.08,
+    "remove_fillers": true
+  },
+  "telop": {
+    "font": "Noto Sans CJK JP",
+    "font_size": 78,
+    "color": "#FFFFFF",
+    "outline_color": "#000000",
+    "outline": 7,
+    "bold": true,
+    "max_chars": 12,
+    "position": "bottom_third",
+    "margin_v": 430
+  },
+  "motion": {
+    "punch_in": true,
+    "zoom": 1.08,
+    "every_n_cuts": 2
+  },
+  "sound": {
+    "bgm_volume": 0.12,
+    "voice_volume": 1.0,
+    "se_at_breaks": false
+  },
+  "hook": {
+    "enabled": true,
+    "duration_sec": 1.5,
+    "font_size": 112,
+    "color": "#FFE14D",
+    "position": "top",
+    "margin_v": 330
+  },
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "notes": []
+}

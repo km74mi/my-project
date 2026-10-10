@@ -8,6 +8,7 @@ cd "${CLAUDE_PROJECT_DIR:-.}"
 # Install Python dependencies on Claude Code on the web (keep stdout clean).
 if [ "${CLAUDE_CODE_REMOTE:-}" = "true" ]; then
   pip install -q -r requirements.txt >&2 || echo "pip install に失敗しました" >&2
+  pip install -q -r .claude/skills/reel-edit/requirements.txt >&2 || echo "faster-whisper の pip install に失敗しました" >&2
 fi
 
 echo "## このリポジトリに保存されたスキルと知識(自動読み込み)"
