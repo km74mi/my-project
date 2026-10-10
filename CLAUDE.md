@@ -4,10 +4,11 @@
 - 回答・コミットメッセージの説明は日本語で書く。コード中のコメント・docstring は既存に合わせる（docstring は英語、ユーザー向けメッセージは日本語）。
 
 ## プロジェクト概要
-このリポジトリには2つのものが入っている。
+このリポジトリには3つのものが入っている。
 
 1. 写真 OCR スクリプト:写真フォルダ内の画像を OpenAI GPT-4o (Vision) で OCR し、結果を CSV / TXT にまとめる単一スクリプト。
 2. `lifeplan-app/` — キャスト向けライフプランシミュレーター「みずきのライフプラン」(講座で使う React の単一 HTML アプリ)。作業するときは `.claude/skills/lifeplan-simulator/SKILL.md` と `lifeplan-app/README.md` を読む。
+3. リールの自動編集 — `.claude/skills/reel-edit/`(手順とスクリプト)と `.claude/skills/reel-judgment/`(判断基準)。作業フォルダは `reel-edit/`(動画はコミットしない)。
 
 以下のファイル一覧と「実行」は OCR スクリプトの説明。
 

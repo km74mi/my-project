@@ -6,3 +6,7 @@ output/
 lifeplan-app/assets/
 lifeplan-app/screenshots/
 node_modules/
+# リール自動編集:動画・文字起こし・計画はコミットしない(フォルダだけ残す)
+reel-edit/**
+!reel-edit/*/
+!reel-edit/*/.gitkeep
