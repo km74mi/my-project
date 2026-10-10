@@ -8,7 +8,7 @@
 
 1. 写真 OCR スクリプト:写真フォルダ内の画像を OpenAI GPT-4o (Vision) で OCR し、結果を CSV / TXT にまとめる単一スクリプト。
 2. `lifeplan-app/` — キャスト向けライフプランシミュレーター「みずきのライフプラン」(講座で使う React の単一 HTML アプリ)。作業するときは `.claude/skills/lifeplan-simulator/SKILL.md` と `lifeplan-app/README.md` を読む。
-3. リールの自動編集 — `.claude/skills/reel-edit/`(手順とスクリプト)と `.claude/skills/reel-judgment/`(判断基準)。作業フォルダは `reel-edit/`(動画はコミットしない)。台本と編集指示書は `reel-plans/`。映像の編集は Codex に任せる(入口は `AGENTS.md`)。
+3. リール — 台本作りは `.claude/skills/reel-script/`。自動編集は `.claude/skills/reel-edit/`(手順とスクリプト)と `.claude/skills/reel-judgment/`(判断基準)。作業フォルダは `reel-edit/`(動画はコミットしない)。台本と編集指示書は `reel-plans/`。映像の編集は Codex に任せる(入口は `AGENTS.md`)。
 
 以下のファイル一覧と「実行」は OCR スクリプトの説明。
 
